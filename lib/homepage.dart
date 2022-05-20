@@ -12,12 +12,14 @@ import 'widgets/custom_tab.dart';
 
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
-class HomePage extends StatefulWidget {
+class AdminHomePage extends StatefulWidget {
+  const AdminHomePage({Key? key}) : super(key: key);
+
   @override
-  _HomePageState createState() => _HomePageState();
+  _AdminHomePageState createState() => _AdminHomePageState();
 }
 
-class _HomePageState extends State<HomePage>
+class _AdminHomePageState extends State<AdminHomePage>
     with SingleTickerProviderStateMixin {
   // late ItemScrollController itemScrollController;
   var scaffoldKey = GlobalKey<ScaffoldState>();
@@ -44,7 +46,7 @@ class _HomePageState extends State<HomePage>
     ),
     ContentView(
       tab: CustomTab(title: 'Routes'),
-      content: RoutesView(),
+      content: const RoutesView(),
     ),
     ContentView(
       tab: CustomTab(title: 'Inbox'),
@@ -82,7 +84,7 @@ class _HomePageState extends State<HomePage>
                   tabs: contentViews.map((e) => e.tab).toList()),
             ),
           ),
-          backgroundColor: Color(0xff1e1e24),
+          backgroundColor: const Color(0xff1e1e24),
           key: scaffoldKey,
           body: Padding(
             padding: EdgeInsets.zero,
@@ -98,7 +100,7 @@ class _HomePageState extends State<HomePage>
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         /// Tab Bar
-        Container(
+        SizedBox(
           height: screenHeight * 0.05,
           width: screenWidth,
           //color: Color(0xff1e1e24),

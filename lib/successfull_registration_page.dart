@@ -29,12 +29,12 @@ class SuccessfullBusRegistrationPageState extends State<SuccessfullBusRegistrati
               height: 50,
               child: ElevatedButton(
                 onPressed: (){},
+                style: ButtonStyle(
+                    backgroundColor: MaterialStateColor.resolveWith((states) => Colors.blue),
+                ),
                 child: const Text(
                   "Okay!",
                   style: TextStyle(color: Colors.white),
-                ),
-                style: ButtonStyle(
-                    backgroundColor: MaterialStateColor.resolveWith((states) => Colors.blue),
                 ),
               ),
             ),

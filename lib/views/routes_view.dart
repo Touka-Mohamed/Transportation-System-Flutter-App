@@ -9,6 +9,7 @@ import 'routes_subviews/pickup_points_view.dart';
 import 'routes_subviews/tripsview.dart';
 
 class RoutesView extends StatefulWidget {
+  const RoutesView({Key? key}) : super(key: key);
   @override
   _RoutesViewState createState() => _RoutesViewState();
 }
@@ -45,7 +46,7 @@ class _RoutesViewState extends State<RoutesView>
               backgroundColor: Colors.transparent,
             ),
           ),
-          backgroundColor: Color(0xff1e1e24),
+          backgroundColor: const Color(0xff1e1e24),
           key: scaffoldKey,
           //endDrawer: drawer(),
           body: Padding(
@@ -64,9 +65,9 @@ class _RoutesViewState extends State<RoutesView>
           child: Column(
             children: <Widget>[
               Container(height: screenHeight * 0.05),
-              Container(
+              SizedBox(
                 height: screenHeight * 0.1,
-                child: Center(child: Text('filters')),
+                child: const Center(child: Text('filters')),
               ),
               buildDatatable(),
             ],
@@ -143,24 +144,22 @@ class _RoutesViewState extends State<RoutesView>
   Widget subviews() {
     return Padding(
       padding: EdgeInsets.only(left: sidePadding, right: sidePadding),
-      child: Container(
-        child: Stack(
-          children: [
-            subcontentViews[index].content,
-            IconButton(
-                iconSize: viewWidth * 0.03,
-                icon: Icon(Icons.menu_rounded),
-                color: Colors.white,
-                splashColor: Colors.transparent,
-                onPressed: () => scaffoldKey.currentState!.openEndDrawer()),
-          ],
-        ),
+      child: Stack(
+        children: [
+          subcontentViews[index].content,
+          IconButton(
+              iconSize: viewWidth * 0.03,
+              icon: const Icon(Icons.menu_rounded),
+              color: Colors.white,
+              splashColor: Colors.transparent,
+              onPressed: () => scaffoldKey.currentState!.openEndDrawer()),
+        ],
       ),
     );
   }
 
   Widget drawer(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: viewWidth * 0.3,
       child: Drawer(
         child: ListView(

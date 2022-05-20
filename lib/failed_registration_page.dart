@@ -31,12 +31,12 @@ class FailedRegistrationPageState extends State<FailedRegistrationPage>
                 height: 50,
                 child: TextButton(
                   onPressed: (){},
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateColor.resolveWith((states) => Colors.white),
+                  ),
                   child: const Text(
                     "Okay!",
                     style: TextStyle(color: Colors.black),
-                  ),
-                  style: ButtonStyle(
-                    backgroundColor: MaterialStateColor.resolveWith((states) => Colors.white),
                   ),
                 ),
               ),

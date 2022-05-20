@@ -19,7 +19,7 @@ class QRCodePageState extends State<QRCodePage>
         child: Column
           (
           children: [
-            Container(child: BackButton(color: Colors.blue, onPressed: (){}), alignment: AlignmentDirectional.centerStart,),
+            Container(alignment: AlignmentDirectional.centerStart,child: BackButton(color: Colors.blue, onPressed: (){}),),
             const Spacer(),
             const Text("Place the QR code in this box"),
             const Spacer(),
@@ -34,10 +34,10 @@ class QRCodePageState extends State<QRCodePage>
             const Spacer(),
             ElevatedButton(
               onPressed: (){},
+              style: ButtonStyle(backgroundColor: MaterialStateColor.resolveWith((states) => Colors.blue)),
               child: const Text(
                 "Okay!",
-                  style: TextStyle(color: Colors.white),),
-              style: ButtonStyle(backgroundColor: MaterialStateColor.resolveWith((states) => Colors.blue)),),
+                  style: TextStyle(color: Colors.white),),),
             const Spacer(),
           ],
         ),

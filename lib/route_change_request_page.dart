@@ -245,10 +245,10 @@ class RouteRequestChangePageState extends State<RouteRequestChangePage>
             const Spacer(),
             ElevatedButton(
               onPressed: (){},
+                style: ButtonStyle(backgroundColor: MaterialStateColor.resolveWith((states) => Colors.blue)),
               child: const Text(
                 "Done!",
                 style: TextStyle(color: Colors.white),),
-                style: ButtonStyle(backgroundColor: MaterialStateColor.resolveWith((states) => Colors.blue)),
             ),
         ]
         )
