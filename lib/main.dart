@@ -5,6 +5,7 @@ import 'package:gui/route_change_request_page.dart';
 import 'package:gui/views/passengers_view.dart';
 import 'package:gui/views/payment_view.dart';
 import 'package:gui/views/routes_subviews/pickup_points_view.dart';
+import 'package:gui/views/routes_subviews/tripsview.dart';
 
 void main() {
   runApp(const MyApp());
@@ -20,7 +21,7 @@ class MyApp extends StatelessWidget {
 
     return MaterialApp(
       title: _title,
-      home:  PickupPointsView(), 
+      home:  TripsView(), 
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
