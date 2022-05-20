@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gui/homepage.dart';
+import 'package:gui/login_page.dart';
 import 'package:gui/route_change_request_page.dart';
 
 void main() {
@@ -16,7 +17,7 @@ class MyApp extends StatelessWidget {
 
     return MaterialApp(
       title: _title,
-      home: const RouteRequestChangePage(),
+      home: const LoginPage(), 
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
