@@ -11,6 +11,16 @@ class _PickupPointsViewState extends State<PickupPointsView> {
   late double viewHeight;
   late double viewWidth;
 
+  String dropdownvalue = 'Route_ID 1';   
+  // List of items in our dropdown menu
+  var routes_items = [    
+    'Route_ID 1',
+    'Route_ID 2',
+    'Route_ID 3',
+    'Route_ID 4',
+    'Route_ID 5',
+  ];
+
   @override
   Widget build(BuildContext context) {
     screenHeight = MediaQuery.of(context).size.height;
@@ -29,10 +39,38 @@ class _PickupPointsViewState extends State<PickupPointsView> {
               Container(
                 height: screenHeight * 0.05,
               ),
-              Container(
+
+              SizedBox(
                 height: screenHeight * 0.1,
-                child: Center(child: Text('filters4')),
-              ),
+                width: viewWidth*0.5,
+                child: 
+
+                Row(children: <Widget>[ 
+
+                const Text('Filter:     '),
+              
+              DropdownButton(
+              // Initial Value
+              value: dropdownvalue,
+              // Down Arrow Icon
+              icon: const Icon(Icons.keyboard_arrow_down),    
+              // Array list of items
+              items: routes_items.map((String items) {
+                return DropdownMenuItem(
+                  value: items,
+                  child: Text(items),
+                );
+              }).toList(),
+              // After selecting the desired option,it will
+              // change button value to selected value
+              onChanged: (String? newValue) { 
+                setState(() {
+                  dropdownvalue = newValue!;
+                });
+              },
+            ),
+                ])),
+
               buildDatatable(),
             ],
           ),
