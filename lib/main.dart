@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gui/homepage.dart';
-import 'package:gui/login_page.dart';
+import 'package:gui/inbox_page.dart';
 import 'package:gui/route_change_request_page.dart';
 import 'package:gui/views/passengers_view.dart';
 import 'package:gui/views/payment_view.dart';
