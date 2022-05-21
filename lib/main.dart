@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
 
     return MaterialApp(
       title: _title,
-      home:  TripsView(), 
+      home:  const LoginPage(), 
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),

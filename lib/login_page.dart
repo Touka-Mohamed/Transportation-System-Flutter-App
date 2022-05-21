@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gui/signup_page.dart';
+import 'package:gui/sql_db.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -14,6 +15,9 @@ class LoginPage extends StatefulWidget {
 enum User_Type { Admin, Passenger, Driver }
 
 class _LoginPage extends State<LoginPage> {
+
+  SqlDb sqlDb = SqlDb(); //instance of the database class
+
   final _formKey = GlobalKey<FormState>();
   // recording fieldInput
   String? inputtedValue;
@@ -132,12 +136,14 @@ class _LoginPage extends State<LoginPage> {
                         width: 450,
                         padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
                         child: ElevatedButton(
-                          onPressed: !userInteracts() || _formKey.currentState == null || !_formKey.currentState!.validate() ? null :() {
+                          onPressed: !userInteracts() || _formKey.currentState == null || !_formKey.currentState!.validate() ? null :() async {
                             // If the form is valid, display a snackbar. In the real world,
                             // you'd often call a server or save the information in a database.
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(content: Text('Processing Data ' )), //+ inputtedValue!
-                            );
+                            //ScaffoldMessenger.of(context).showSnackBar(
+                            //  const SnackBar(content: Text('Processing Data ' )), //+ inputtedValue!
+                            //)
+                          int response = await sqlDb.insertData("INSERT INTO 'User_Table' VALUES ('Touka','1234',1,123456, 'Touka', 20, 010633) ")  ;
+                          print(response);
                           },
                           child: const Text('Login',style: TextStyle(fontSize: 20)),
                         )
@@ -153,7 +159,7 @@ class _LoginPage extends State<LoginPage> {
                     'Sign up',
                     style: TextStyle(fontSize: 20),
                   ),
-                  onPressed: ()
+                  onPressed: () 
                   {Navigator.push(context, MaterialPageRoute(builder: (context) {return const SignupPage();}));
                     //signup screen
                   },
