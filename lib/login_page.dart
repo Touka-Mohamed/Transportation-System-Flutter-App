@@ -32,7 +32,10 @@ class _LoginPage extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
+    return Scaffold(
+        appBar: AppBar(title: const Text('ZC Transportation System')),
+        body: 
+      Padding(
         padding: const EdgeInsets.all(10),
         child: ListView(
           children: <Widget>[
@@ -160,6 +163,6 @@ class _LoginPage extends State<LoginPage> {
             ),
 
           ],
-        ));
+        )));
   }
 }
