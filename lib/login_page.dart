@@ -136,14 +136,13 @@ class _LoginPage extends State<LoginPage> {
                         width: 450,
                         padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
                         child: ElevatedButton(
-                          onPressed: !userInteracts() || _formKey.currentState == null || !_formKey.currentState!.validate() ? null :() async {
+                          onPressed: !userInteracts() || _formKey.currentState == null || !_formKey.currentState!.validate() ? null :()  {
                             // If the form is valid, display a snackbar. In the real world,
                             // you'd often call a server or save the information in a database.
                             //ScaffoldMessenger.of(context).showSnackBar(
                             //  const SnackBar(content: Text('Processing Data ' )), //+ inputtedValue!
                             //)
-                          int response = await sqlDb.insertData("INSERT INTO 'User_Table' VALUES ('Touka','1234',1,123456, 'Touka', 20, 010633) ")  ;
-                          print(response);
+
                           },
                           child: const Text('Login',style: TextStyle(fontSize: 20)),
                         )
