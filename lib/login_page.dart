@@ -12,7 +12,6 @@ class LoginPage extends StatefulWidget {
 
 }
 
-enum User_Type { Admin, Passenger, Driver }
 
 class _LoginPage extends State<LoginPage> {
 
@@ -32,7 +31,6 @@ class _LoginPage extends State<LoginPage> {
     super.initState();
   }
 
-  User_Type? _User_Type = User_Type.Admin;
 
   @override
   Widget build(BuildContext context) {
@@ -44,52 +42,7 @@ class _LoginPage extends State<LoginPage> {
         child: ListView(
           children: <Widget>[
 
-            Container(
-                alignment: Alignment.center,
-                padding: const EdgeInsets.all(10),
-                child: const Text(
-                  'Choose User Type!',
-                  style: TextStyle(fontSize: 20),
-                )),
-
-
-            ListTile(
-                title: const Text('Admin'),
-                leading: Radio<User_Type>(
-                  value: User_Type.Admin,
-                  groupValue: _User_Type,
-                  onChanged: (User_Type? value) {
-                    setState(() {
-                      _User_Type = value;
-                    });
-                  },
-                )
-            ),
-            ListTile(
-                title: const Text('Passenger'),
-                leading: Radio<User_Type>(
-                  value: User_Type.Passenger,
-                  groupValue: _User_Type,
-                  onChanged: (User_Type? value) {
-                    setState(() {
-                      _User_Type = value;
-                    });
-                  },
-                )
-            ),
-            ListTile(
-                title: const Text('Driver'),
-                leading: Radio<User_Type>(
-                  value: User_Type.Driver,
-                  groupValue: _User_Type,
-                  onChanged: (User_Type? value) {
-                    setState(() {
-                      _User_Type = value;
-                    });
-                  },
-                )
-            ),
-
+            
             Form(
                 key: _formKey,
                 child: Column(

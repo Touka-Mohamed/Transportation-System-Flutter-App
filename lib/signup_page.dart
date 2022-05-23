@@ -14,6 +14,7 @@ class SignupPage extends StatefulWidget {
     return _SignupPage();
   }
 }
+  enum User_Type { Admin, Passenger, Driver }
 
 class _SignupPage extends State<SignupPage> {
   SqlDb sqlDb = SqlDb(); //instance of the database class
