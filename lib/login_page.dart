@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:gui/driver_homepage.dart';
+import 'package:gui/homepage.dart';
 import 'package:gui/signup_page.dart';
 import 'package:gui/sql_db.dart';
+import 'package:gui/user_homepage.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -100,17 +103,26 @@ class _LoginPage extends State<LoginPage> {
                         padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
                         child: ElevatedButton(
                           onPressed: !userInteracts() || _formKey.currentState == null || !_formKey.currentState!.validate() ? null : ()  async{
-                            // If the form is valid, display a snackbar. In the real world,
-                            // you'd often call a server or save the information in a database.
-                            //ScaffoldMessenger.of(context).showSnackBar(
-                            //  const SnackBar(content: Text('Processing Data ' )), //+ inputtedValue!
-                            //)
-                            //Future<List<Map>> db = readData();
-                            //List<Map> response = await sqlDb.readData("select * from User_Table");
+
                             List<Map> response = await sqlDb.readData("select privilage from User_Table WHERE username= '${usernameController.text}' and password= '${passwordController.text}' ");
-                            //List<Map> response2 = response.where((response) => response["privilage"]
-                            //.toList();
                             print(response);
+                            if (response.length == 0) {
+                              print("incorrect username or password");
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(content: Text('Incorrect Username or Password' )) //+ inputtedValue!
+                                );
+                            }
+                            else if (response[0]['privilage'] == 3) { //if driver
+                              Navigator.push(context, MaterialPageRoute(builder: (context) {return const DriverHomePage();}));
+                            }
+                            else if (response[0]['privilage'] == 2) { //if passenger
+
+                              Navigator.push(context, MaterialPageRoute(builder: (context) {return const UserHomePage();}));
+
+                            }
+                            else if (response[0]['privilage'] == 1) {  //if admin
+                              Navigator.push(context, MaterialPageRoute(builder: (context) {return const AdminHomePage();}));
+                            }
                           },
                           child: const Text('Login',style: TextStyle(fontSize: 20)),
                         )
