@@ -17,6 +17,12 @@ class _LoginPage extends State<LoginPage> {
 
   SqlDb sqlDb = SqlDb(); //instance of the database class
 
+  //Future<List<Map>> readData() async {
+  //  List<Map> response = await sqlDb.readData("select * from User_Table");
+   // print(response);
+    //return response;
+ // }
+
   final _formKey = GlobalKey<FormState>();
   // recording fieldInput
   String? inputtedValue;
@@ -24,6 +30,8 @@ class _LoginPage extends State<LoginPage> {
   // you can add more fields if needed
   bool userInteracts() => inputtedValue != null;
   bool _passwordVisible=false;
+  TextEditingController usernameController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
 
   @override
   void initState() {
@@ -50,6 +58,7 @@ class _LoginPage extends State<LoginPage> {
                     Container(
                       padding: const EdgeInsets.all(10),
                       child: TextFormField(
+                        controller: usernameController,
                         // The validator receives the text that the user has entered.
                         decoration: const InputDecoration(
                           border: OutlineInputBorder(),
@@ -68,6 +77,7 @@ class _LoginPage extends State<LoginPage> {
                     Container(
                       padding: const EdgeInsets.all(10),
                       child:TextFormField(
+                        controller: passwordController,
                         obscureText: !_passwordVisible,
                         // The validator receives the text that the user has entered.
                         decoration: const InputDecoration(
@@ -89,13 +99,18 @@ class _LoginPage extends State<LoginPage> {
                         width: 450,
                         padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
                         child: ElevatedButton(
-                          onPressed: !userInteracts() || _formKey.currentState == null || !_formKey.currentState!.validate() ? null :()  {
+                          onPressed: !userInteracts() || _formKey.currentState == null || !_formKey.currentState!.validate() ? null : ()  async{
                             // If the form is valid, display a snackbar. In the real world,
                             // you'd often call a server or save the information in a database.
                             //ScaffoldMessenger.of(context).showSnackBar(
                             //  const SnackBar(content: Text('Processing Data ' )), //+ inputtedValue!
                             //)
-
+                            //Future<List<Map>> db = readData();
+                            //List<Map> response = await sqlDb.readData("select * from User_Table");
+                            List<Map> response = await sqlDb.readData("select privilage from User_Table WHERE username= '${usernameController.text}' and password= '${passwordController.text}' ");
+                            //List<Map> response2 = response.where((response) => response["privilage"]
+                            //.toList();
+                            print(response);
                           },
                           child: const Text('Login',style: TextStyle(fontSize: 20)),
                         )

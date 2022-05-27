@@ -251,14 +251,14 @@ class _SignupPage extends State<SignupPage> {
                         onPressed: !userInteracts() || _formKey.currentState == null || !_formKey.currentState!.validate() ? null :() async {
                           
                           if (_User_Type==User_Type.Admin) {
-                              privController==1;
+                              privController=1;
                               Navigator.push(context, MaterialPageRoute(builder: (context) {return const AdminHomePage();}));
                           } 
                           else if (_User_Type==User_Type.Passenger) {
-                            privController==2;
+                            privController=2;
                             Navigator.push(context, MaterialPageRoute(builder: (context) {return const PassengerSignupPage();}));
                           } else if (_User_Type==User_Type.Driver) {
-                            privController==3;
+                            privController=3;
                             Navigator.push(context, MaterialPageRoute(builder: (context) {return const DriverHomePage();}));
                           } else {
                             print("error");
