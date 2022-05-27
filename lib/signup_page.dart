@@ -259,7 +259,7 @@ class _SignupPage extends State<SignupPage> {
                             Navigator.push(context, MaterialPageRoute(builder: (context) {return const PassengerSignupPage();}));
                           } else if (_User_Type==User_Type.Driver) {
                             privController=3;
-                            Navigator.push(context, MaterialPageRoute(builder: (context) {return const DriverHomePage();}));
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => DriverHomePage(name: name.text, phone:int.parse(phoneController.text)) ));
                           } else {
                             print("error");
                           }

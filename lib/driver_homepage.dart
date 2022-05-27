@@ -1,19 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:gui/sql_db.dart';
 
 import 'no_route_yet.dart';
 
 class DriverHomePage extends StatefulWidget {
-  const DriverHomePage({Key? key}) : super(key: key);
+  const DriverHomePage({Key? key, required this.name, required this.phone}) : super(key: key);
+  //const DriverHomePage({Key? key}) : super(key: key);
+  final String name;
+  final int phone;
 
   @override
   State<DriverHomePage> createState() => _DriverHomePage();
 }
 
 class _DriverHomePage extends State<DriverHomePage> {
+  //String get name => name;
+
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold (appBar: AppBar(title: const Text("")), body:
+
+    return Scaffold (appBar: AppBar(title: const Text(" ")), body:
     Column(children: <Widget>[
       Expanded(child: ListView(
 
@@ -27,24 +34,17 @@ class _DriverHomePage extends State<DriverHomePage> {
           Container(
               alignment: Alignment.center,
               padding: const EdgeInsets.all(12),
-              child: const Text(
-                'Your Name',
+              child: Text(
+               '${widget.name} ',
                 style: TextStyle(fontSize: 18),
               )),
 
-          Container(
-              alignment: Alignment.center,
-              padding: const EdgeInsets.all(10),
-              child: const Text(
-                'Your Email address',
-                style: TextStyle(fontSize: 15),
-              )),
 
           Container(
               alignment: Alignment.center,
               padding: const EdgeInsets.all(10),
-              child: const Text(
-                'Your phone address',
+              child:  Text(
+                'Phone: ${widget.phone} ',
                 style: TextStyle(fontSize: 15),
               )),
 

@@ -20,6 +20,8 @@ class _LoginPage extends State<LoginPage> {
 
   SqlDb sqlDb = SqlDb(); //instance of the database class
 
+
+
   //Future<List<Map>> readData() async {
   //  List<Map> response = await sqlDb.readData("select * from User_Table");
    // print(response);
@@ -104,7 +106,7 @@ class _LoginPage extends State<LoginPage> {
                         child: ElevatedButton(
                           onPressed: !userInteracts() || _formKey.currentState == null || !_formKey.currentState!.validate() ? null : ()  async{
 
-                            List<Map> response = await sqlDb.readData("select privilage from User_Table WHERE username= '${usernameController.text}' and password= '${passwordController.text}' ");
+                            List<Map> response = await sqlDb.readData("select * from User_Table WHERE username= '${usernameController.text}' and password= '${passwordController.text}' ");
                             print(response);
                             if (response.length == 0) {
                               print("incorrect username or password");
@@ -113,9 +115,11 @@ class _LoginPage extends State<LoginPage> {
                                 );
                             }
                             else if (response[0]['privilage'] == 3) { //if driver
-                              Navigator.push(context, MaterialPageRoute(builder: (context) {return const DriverHomePage();}));
+                              String namee=response[0]['name'];
+                              int phonee=response[0]['phone_number'];
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => DriverHomePage(name: namee, phone:phonee) ));
                             }
-                            else if (response[0]['privilage'] == 2) { //if passenger
+                            else if (response[0]['privilage'] == 2) { //if passenger3
 
                               Navigator.push(context, MaterialPageRoute(builder: (context) {return const UserHomePage();}));
 

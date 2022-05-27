@@ -111,7 +111,7 @@ class PassengerSignupPageState extends State<PassengerSignupPage> {
                       padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
                       child: ElevatedButton(
                         onPressed: !userInteracts() || _formKey.currentState == null || !_formKey.currentState!.validate() ? null :() {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) {return const DriverHomePage();}));
+                          //Navigator.push(context, MaterialPageRoute(builder: (context)=> DriverHomePage(name: usernameController.text) ));
 
                         },
                         child: const Text('Continue',style: TextStyle(fontSize: 20)),
