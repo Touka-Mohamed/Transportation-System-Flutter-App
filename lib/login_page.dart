@@ -136,6 +136,7 @@ class _LoginPage extends State<LoginPage> {
                 )),
 
             Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 const Text('Does not have account?'),
                 TextButton(
@@ -145,11 +146,6 @@ class _LoginPage extends State<LoginPage> {
                   ),
                   onPressed: () async
                   {
-                    //await sqlDb.mydeleteDatabase();
-                  // int response = await sqlDb.insertData("""
-                  //       INSERT INTO Route ('Route_id', 'semester', 'year')
-                  //        VALUES ("2", "1", 2) """)  ;
-                  //  print(response);
 
 
                     Navigator.push(context, MaterialPageRoute(builder: (context) {return const SignupPage();}));
@@ -157,7 +153,6 @@ class _LoginPage extends State<LoginPage> {
                   },
                 )
               ],
-              mainAxisAlignment: MainAxisAlignment.center,
             ),
 
           ],

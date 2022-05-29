@@ -7,17 +7,18 @@ class SqlDb {
   static Database? _db;
 
   Future<Database?> get db async {
-    if (defaultTargetPlatform != TargetPlatform.android) {
+    if (defaultTargetPlatform != TargetPlatform.android)
+    {
       // Initialize FFI
       sqfliteFfiInit();
       databaseFactory = databaseFactoryFfi;
     }
-    if (_db == null) {
-      _db = await intialDb();
-      return _db;
-    } else {
-      return _db;
-    }
+      if (_db == null){
+        _db  = await intialDb() ;
+        return _db ;  
+      }else {
+        return _db ; 
+      }
   }
 
   intialDb() async {
