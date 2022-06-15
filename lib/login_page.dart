@@ -142,8 +142,16 @@ class _LoginPage extends State<LoginPage> {
                     'Sign up',
                     style: TextStyle(fontSize: 20),
                   ),
-                  onPressed: () 
-                  {Navigator.push(context, MaterialPageRoute(builder: (context) {return const SignupPage();}));
+                  onPressed: () async
+                  {
+                    //await sqlDb.mydeleteDatabase();
+                  // int response = await sqlDb.insertData("""
+                  //       INSERT INTO Route ('Route_id', 'semester', 'year')
+                  //        VALUES ("2", "1", 2) """)  ;
+                  //  print(response);
+
+
+                    Navigator.push(context, MaterialPageRoute(builder: (context) {return const SignupPage();}));
                     //signup screen
                   },
                 )
