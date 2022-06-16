@@ -40,7 +40,7 @@ class _NoRouteYet extends State<NoRouteYet> {
                   child: const Center( child: Text(
                       'Okay', style: TextStyle(fontSize: 20))),
                   onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) {return const CurrentRoute();}));
+                    Navigator.pop(context);
                   },),
 
               )),

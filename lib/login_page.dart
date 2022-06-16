@@ -115,9 +115,10 @@ class _LoginPage extends State<LoginPage> {
                                 );
                             }
                             else if (response[0]['privilage'] == 3) { //if driver
+                              int nationalid=response[0]['national_id'];
                               String namee=response[0]['name'];
                               int phonee=response[0]['phone_number'];
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => DriverHomePage(name: namee, phone:phonee) ));
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => DriverHomePage(name: namee, phone:phonee, natioanlId: nationalid) ));
                             }
                             else if (response[0]['privilage'] == 2) { //if passenger3
 

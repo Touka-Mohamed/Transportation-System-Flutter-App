@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:gui/current_route.dart';
 import 'package:gui/sql_db.dart';
 
 import 'no_route_yet.dart';
 
 class DriverHomePage extends StatefulWidget {
-  const DriverHomePage({Key? key, required this.name, required this.phone}) : super(key: key);
+  const DriverHomePage({Key? key, required this.name, required this.phone, required this.natioanlId}) : super(key: key);
   //const DriverHomePage({Key? key}) : super(key: key);
   final String name;
   final int phone;
+  final int natioanlId;
 
   @override
   State<DriverHomePage> createState() => _DriverHomePage();
@@ -15,7 +17,7 @@ class DriverHomePage extends StatefulWidget {
 
 class _DriverHomePage extends State<DriverHomePage> {
   //String get name => name;
-
+  SqlDb sqlDb = SqlDb(); //instance of the database class
 
   @override
   Widget build(BuildContext context) {
@@ -66,8 +68,16 @@ class _DriverHomePage extends State<DriverHomePage> {
                     shape: CircleBorder(),
 
                   ),
-                  onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) {return const NoRouteYet();}));
+                  onPressed: () async {
+                    List<Map> response = await sqlDb.readData("select * from Route WHERE driver_id= '${widget.natioanlId}' ");
+                    print(response);
+                    if (response.length == 0) {
+                      print("no route found");
+                      Navigator.push(context, MaterialPageRoute(builder: (context) {return const NoRouteYet();}));
+                    } else {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) {return const CurrentRoute();}));
+                    }
+
                   },),
 
               )),
