@@ -62,8 +62,6 @@ CREATE TABLE Route
 "year"                       INTEGER Unique,
 "driver_id"                  INTEGER  ,
 "passengers_id"              INTEGER  , 
-"pickup_points_address"     TEXT ,
-"pickup_points_order"        INTEGER  ,
 "bus_no"                    TEXT,
 "select_deadline"           TEXT,
 "title"                     TEXT,

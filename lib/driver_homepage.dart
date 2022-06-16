@@ -69,13 +69,26 @@ class _DriverHomePage extends State<DriverHomePage> {
 
                   ),
                   onPressed: () async {
+                    int response1 = await sqlDb.insertData("""INSERT INTO Route('Route_id','semester','year',
+                          'driver_id','passengers_id','bus_no','title') 
+                          VALUES ("S06","FALL","2020" ,"${widget.natioanlId}", 
+                          "201700903", "6565", "NASR CITY") """)  ;
+                    print(response1);
+
                     List<Map> response = await sqlDb.readData("select * from Route WHERE driver_id= '${widget.natioanlId}' ");
                     print(response);
                     if (response.length == 0) {
                       print("no route found");
                       Navigator.push(context, MaterialPageRoute(builder: (context) {return const NoRouteYet();}));
                     } else {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) {return const CurrentRoute();}));
+                      String routeID = response[0]['Route_id'];
+                      String routeTitle = response[0]['title'];
+                      String Semester = response[0]['semester'];
+                      int Year = response[0]['year'];
+                      String bus = response[0]['bus_no'];
+
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => CurrentRoute(routeid: routeID, route_title:routeTitle,
+                      semester: Semester, year: Year, bus_num: bus)));
                     }
 
                   },),
