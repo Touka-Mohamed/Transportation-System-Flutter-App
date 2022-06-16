@@ -114,14 +114,13 @@ FOREIGN KEY (Bus_no) REFERENCES Bus (Bus_no)
     await db.execute('''
     CREATE TABLE Passenger
 (
-"NationalID"                    INTEGER NOT NULL, 
+"NationalID"                    INTEGER, 
 "Email"                        TEXT NOT NULL,
-"Payment_date"                 TEXT NOT NULL, 
+"Payment_date"                 TEXT, 
 "Route_id"                      TEXT ,
 "Pick_up_Point_order_number"    INTEGER DEFAULT 0,
-"Contact"                         INTEGER NOT NULL,
 "Emergency_contact"              INTEGER NOT NULL,
-"UST_id"                        INTEGER NOT NULL,
+"UST_id"                        INTEGER,
 "Approval"                       TEXT,
 
 PRIMARY KEY (NationalID),
