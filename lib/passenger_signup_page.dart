@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:gui/sql_db.dart';
+import 'package:gui/user_homepage.dart';
 
 import 'driver_homepage.dart';
 
 class PassengerSignupPage extends StatefulWidget {
-  const PassengerSignupPage({Key? key}) : super(key: key);
+  const PassengerSignupPage({Key? key, required this.national_id}) : super(key: key);
+  final int national_id;
 
   @override
   PassengerSignupPageState createState() {
@@ -12,12 +15,19 @@ class PassengerSignupPage extends StatefulWidget {
 }
 
 class PassengerSignupPageState extends State<PassengerSignupPage> {
+  SqlDb sqlDb = SqlDb(); //instance of the database class
   final _formKey = GlobalKey<FormState>();
   // recording fieldInput
   String? inputtedValue;
 
   // you can add more fields if needed
   bool userInteracts() => inputtedValue != null;
+
+  TextEditingController emailController = TextEditingController();
+  TextEditingController ustIDController = TextEditingController();
+  TextEditingController EmergencyController = TextEditingController();
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -51,6 +61,7 @@ class PassengerSignupPageState extends State<PassengerSignupPage> {
                   Container(
                     padding: const EdgeInsets.all(10),
                     child: TextFormField(
+                      controller: emailController,
                       // The validator receives the text that the user has entered.
                       decoration: const InputDecoration(
                         border: OutlineInputBorder(),
@@ -70,6 +81,7 @@ class PassengerSignupPageState extends State<PassengerSignupPage> {
                   Container(
                     padding: const EdgeInsets.all(10),
                     child:TextFormField(
+                      controller: ustIDController,
                       // The validator receives the text that the user has entered.
                       decoration: const InputDecoration(
                         border: OutlineInputBorder(),
@@ -89,6 +101,7 @@ class PassengerSignupPageState extends State<PassengerSignupPage> {
                   Container(
                     padding: const EdgeInsets.all(10),
                     child:TextFormField(
+                      controller: EmergencyController,
                       // The validator receives the text that the user has entered.
                       decoration: const InputDecoration(
                         border: OutlineInputBorder(),
@@ -110,10 +123,15 @@ class PassengerSignupPageState extends State<PassengerSignupPage> {
                       width: 450,
                       padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
                       child: ElevatedButton(
-                        onPressed: !userInteracts() || _formKey.currentState == null || !_formKey.currentState!.validate() ? null :() {
-                          //Navigator.push(context, MaterialPageRoute(builder: (context)=> DriverHomePage(name: usernameController.text) ));
+                        onPressed: !userInteracts() || _formKey.currentState == null || !_formKey.currentState!.validate() ? null :() async {
+                          int response = await sqlDb.insertData("""INSERT INTO Passenger('NationalID','Email','Emergency_contact',
+                          'UST_id') 
+                          VALUES ("${widget.national_id}","${emailController.text}","${int.parse(EmergencyController.text)}" ,"${int.parse(ustIDController.text)}") """)  ;
+                          print(response);
 
+                          Navigator.push(context, MaterialPageRoute(builder: (context) {return const UserHomePage();}));
                         },
+
                         child: const Text('Continue',style: TextStyle(fontSize: 20)),
                       )
                   ),
