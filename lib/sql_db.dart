@@ -332,6 +332,13 @@ FOREIGN KEY (order_number,  Route_id) REFERENCES Pick_up_Point  (order_number, r
       return responses.length;
     }
 
+    getNumberOfExceptions() async
+    {
+      List<Map> responses = await readData(
+          "select * from Exception");
+      return responses.length;
+    }
+
     addComplaint(
         String date,
         String direction,
@@ -354,6 +361,34 @@ FOREIGN KEY (order_number,  Route_id) REFERENCES Pick_up_Point  (order_number, r
           '$complaintDate, '
           '$description, '
           '$title)';
+      insertData(query);
+    }
+
+    addException(
+        String demandedDay,
+        String demandedDirection,
+        String demandedRouteID,
+        ) async
+    {
+      int passengerID = Globals.Instance.nationalID;
+      String currentDay = DateTime.now.toString();
+      String currentDirection = demandedDirection;
+      String currentRouteID;
+      int exceptionID = getNumberOfExceptions();
+      List<Map> passengerResponse = getPassengerData(Globals.Instance.nationalID.toString());
+      currentRouteID = passengerResponse[0]['Route_id'].toString();
+
+      String query = 'INSERT into Exception '
+          'VALUES( $passengerID, '
+          '$currentDay, '
+          '$currentDirection, '
+          '$currentRouteID, '
+          ', '
+          '$demandedDay, '
+          '$demandedDirection, '
+          '$demandedRouteID, '
+          ', '
+          ' )';
       insertData(query);
     }
   }
