@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:gui/driver_homepage.dart';
+import 'package:gui/homepage.dart';
 import 'package:gui/passenger_signup_page.dart';
 import 'login_page.dart';
+import 'package:gui/sql_db.dart';
+
 
 class SignupPage extends StatefulWidget {
   const SignupPage({Key? key}) : super(key: key);
@@ -10,8 +14,10 @@ class SignupPage extends StatefulWidget {
     return _SignupPage();
   }
 }
+  enum User_Type { Admin, Passenger, Driver }
 
 class _SignupPage extends State<SignupPage> {
+  SqlDb sqlDb = SqlDb(); //instance of the database class
   final _formKey = GlobalKey<FormState>();
   // recording fieldInput
   String? inputtedValue;
@@ -26,6 +32,15 @@ class _SignupPage extends State<SignupPage> {
     super.initState();
   }
 
+
+  TextEditingController name = TextEditingController();
+  TextEditingController username = TextEditingController();
+  TextEditingController password_controller = TextEditingController();
+  TextEditingController nationalId = TextEditingController();
+  TextEditingController ageController = TextEditingController();
+  TextEditingController phoneController = TextEditingController();
+
+  int privController=0;
 
   User_Type? _User_Type = User_Type.Admin;
 
@@ -111,6 +126,7 @@ class _SignupPage extends State<SignupPage> {
                   Container(
                     padding: const EdgeInsets.fromLTRB(10, 8, 10, 0),
                     child: TextFormField(
+                      controller: username,
                       // The validator receives the text that the user has entered.
                       decoration: const InputDecoration(
                         border: OutlineInputBorder(),
@@ -130,6 +146,7 @@ class _SignupPage extends State<SignupPage> {
                     padding: const EdgeInsets.fromLTRB(10, 8, 10, 0),
                     child:TextFormField(
                       obscureText: !_passwordVisible,
+                      controller: password_controller,
                       // The validator receives the text that the user has entered.
                       decoration: const InputDecoration(
                         border: OutlineInputBorder(),
@@ -148,6 +165,7 @@ class _SignupPage extends State<SignupPage> {
                   Container(
                     padding: const EdgeInsets.fromLTRB(10, 8, 10, 0),
                     child:TextFormField(
+                      controller: name,
                       // The validator receives the text that the user has entered.
                       decoration: const InputDecoration(
                         border: OutlineInputBorder(),
@@ -167,6 +185,7 @@ class _SignupPage extends State<SignupPage> {
                   Container(
                     padding: const EdgeInsets.fromLTRB(10, 8, 10, 0),
                     child:TextFormField(
+                      controller: ageController,
                       // The validator receives the text that the user has entered.
                       decoration: const InputDecoration(
                         border: OutlineInputBorder(),
@@ -186,6 +205,7 @@ class _SignupPage extends State<SignupPage> {
                   Container(
                     padding: const EdgeInsets.fromLTRB(10, 8, 10, 0),
                     child:TextFormField(
+                      controller: phoneController,
                       // The validator receives the text that the user has entered.
                       decoration: const InputDecoration(
                         border: OutlineInputBorder(),
@@ -206,6 +226,7 @@ class _SignupPage extends State<SignupPage> {
                   Container(
                     padding: const EdgeInsets.fromLTRB(10, 8, 10, 0),
                     child:TextFormField(
+                      controller: nationalId,
                       // The validator receives the text that the user has entered.
                       decoration: const InputDecoration(
                         border: OutlineInputBorder(),
@@ -227,8 +248,32 @@ class _SignupPage extends State<SignupPage> {
                       width: 450,
                       padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
                       child: ElevatedButton(
-                        onPressed: !userInteracts() || _formKey.currentState == null || !_formKey.currentState!.validate() ? null :() {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) {return const PassengerSignupPage();}));
+                        onPressed: !userInteracts() || _formKey.currentState == null || !_formKey.currentState!.validate() ? null :() async {
+                          
+                          if (_User_Type==User_Type.Admin) {
+                              privController=1;
+                              Globals.Instance.setNationalID(int.parse(nationalId.text));
+                              Navigator.push(context, MaterialPageRoute(builder: (context) {return const AdminHomePage();}));
+                          } 
+                          else if (_User_Type==User_Type.Passenger) {
+                            privController=2;
+                            Globals.Instance.setNationalID(int.parse(nationalId.text));
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => PassengerSignupPage(national_id: int.parse(nationalId.text), name: name.text, mobileNo: int.parse(phoneController.text), age: int.parse(ageController.text)) ));
+                          } else if (_User_Type==User_Type.Driver) {
+                            privController=3;
+                            Globals.Instance.setNationalID(int.parse(nationalId.text));
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => DriverHomePage(name: name.text, phone:int.parse(phoneController.text), national_id: int.parse(nationalId.text)) ));
+                          } else {
+                            print("error");
+                          }
+
+                          int response = await sqlDb.insertData("""INSERT INTO User_Table('username','password','privilage',
+                          'national_id','name','age','phone_number') 
+                          VALUES ("${username.text}","${password_controller.text}","$privController" ,"${nationalId.text}", 
+                          "${name.text}", "${ageController.text}", "${phoneController.text}") """)  ;
+                          print(response);
+
+                          
 
                         },
                         child: const Text('Continue',style: TextStyle(fontSize: 20)),
@@ -253,7 +298,6 @@ class _SignupPage extends State<SignupPage> {
               )
             ],
           ),
-
 
         ],
       ))

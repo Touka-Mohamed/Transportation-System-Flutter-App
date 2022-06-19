@@ -1,19 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:gui/current_route.dart';
+import 'package:gui/sql_db.dart';
 
 import 'no_route_yet.dart';
 
 class DriverHomePage extends StatefulWidget {
-  const DriverHomePage({Key? key}) : super(key: key);
+  const DriverHomePage({Key? key, required this.name, required this.phone, required this.national_id}) : super(key: key);
+  //const DriverHomePage({Key? key}) : super(key: key);
+  final String name;
+  final int phone;
+  final int national_id;
 
   @override
   State<DriverHomePage> createState() => _DriverHomePage();
 }
 
 class _DriverHomePage extends State<DriverHomePage> {
+  //String get name => name;
+  SqlDb sqlDb = SqlDb(); //instance of the database class
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold (appBar: AppBar(title: const Text("")), body:
+
+    return Scaffold (appBar: AppBar(title: const Text(" ")), body:
     Column(children: <Widget>[
       Expanded(child: ListView(
 
@@ -27,24 +36,17 @@ class _DriverHomePage extends State<DriverHomePage> {
           Container(
               alignment: Alignment.center,
               padding: const EdgeInsets.all(12),
-              child: const Text(
-                'Your Name',
+              child: Text(
+               '${widget.name} ',
                 style: TextStyle(fontSize: 18),
               )),
 
-          Container(
-              alignment: Alignment.center,
-              padding: const EdgeInsets.all(10),
-              child: const Text(
-                'Your Email address',
-                style: TextStyle(fontSize: 15),
-              )),
 
           Container(
               alignment: Alignment.center,
               padding: const EdgeInsets.all(10),
-              child: const Text(
-                'Your phone address',
+              child:  Text(
+                'Phone: ${widget.phone} ',
                 style: TextStyle(fontSize: 15),
               )),
 
@@ -66,8 +68,29 @@ class _DriverHomePage extends State<DriverHomePage> {
                     shape: CircleBorder(),
 
                   ),
-                  onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) {return const NoRouteYet();}));
+                  onPressed: () async {
+                    int response1 = await sqlDb.insertData("""INSERT INTO Route('Route_id','semester','year',
+                          'driver_id','passengers_id','bus_no','title') 
+                          VALUES ("S06","FALL","2020" ,"${widget.national_id}", 
+                          "201700903", "6565", "NASR CITY") """)  ;
+                    print(response1);
+
+                    List<Map> response = await sqlDb.readData("select * from Route WHERE driver_id= '${widget.national_id}' ");
+                    print(response);
+                    if (response.length == 0) {
+                      print("no route found");
+                      Navigator.push(context, MaterialPageRoute(builder: (context) {return const NoRouteYet();}));
+                    } else {
+                      String routeID = response[0]['Route_id'];
+                      String routeTitle = response[0]['title'];
+                      String Semester = response[0]['semester'];
+                      int Year = response[0]['year'];
+                      String bus = response[0]['bus_no'];
+
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => CurrentRoute(routeid: routeID, route_title:routeTitle,
+                      semester: Semester, year: Year, bus_num: bus)));
+                    }
+
                   },),
 
               )),

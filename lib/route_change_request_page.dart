@@ -17,20 +17,14 @@ class RouteRequestChangePageState extends State<RouteRequestChangePage>
   bool route1 = false;
   bool route2 = false;
   bool route3 = false;
+  List<bool> routes = [];
   Checkbox? selectedPickupPoint;
   @override
   Widget build(BuildContext context) {
 
     return Scaffold(
       appBar: AppBar(
-        title:
-        Row(
-            children: [
-              BackButton(color: Colors.white, onPressed: (){}),
-              const Spacer(),
-              const Text("Route change request", textAlign: TextAlign.center),
-              const Spacer(),
-          ]),
+        title: const Text("Route change request", textAlign: TextAlign.center),
       ),
       body: Center(
         child: Column(
@@ -60,7 +54,6 @@ class RouteRequestChangePageState extends State<RouteRequestChangePage>
                   Container(
                       color: Colors.greenAccent,
                       child: Column(children:[
-
                         Container(
                           width: MediaQuery.of(context).size.width,
                           height: 50.0,
@@ -222,7 +215,6 @@ class RouteRequestChangePageState extends State<RouteRequestChangePage>
                 ]
                 )
             ),
-
             Container(
               width: MediaQuery.of(context).size.width,
               height: 50.0,
@@ -241,15 +233,21 @@ class RouteRequestChangePageState extends State<RouteRequestChangePage>
                 },
               ),
             ),
-
             const Spacer(),
-            ElevatedButton(
-              onPressed: (){},
-                style: ButtonStyle(backgroundColor: MaterialStateColor.resolveWith((states) => Colors.blue)),
-              child: const Text(
-                "Done!",
-                style: TextStyle(color: Colors.white),),
+            SizedBox(
+              height: 50,
+              width: MediaQuery.of(context).size.width * 0.8,
+              child: ElevatedButton(
+                onPressed: (){
+                  Navigator.pop(context);
+                },
+                  style: ButtonStyle(backgroundColor: MaterialStateColor.resolveWith((states) => Colors.blue)),
+                child: const Text(
+                  "Done!",
+                  style: TextStyle(color: Colors.white),),
+              ),
             ),
+            const Spacer(),
         ]
         )
       )
