@@ -252,13 +252,16 @@ class _SignupPage extends State<SignupPage> {
                           
                           if (_User_Type==User_Type.Admin) {
                               privController=1;
+                              Globals.Instance.setNationalID(int.parse(nationalId.text));
                               Navigator.push(context, MaterialPageRoute(builder: (context) {return const AdminHomePage();}));
                           } 
                           else if (_User_Type==User_Type.Passenger) {
                             privController=2;
+                            Globals.Instance.setNationalID(int.parse(nationalId.text));
                             Navigator.push(context, MaterialPageRoute(builder: (context) => PassengerSignupPage(national_id: int.parse(nationalId.text), name: name.text, mobileNo: int.parse(phoneController.text), age: int.parse(ageController.text)) ));
                           } else if (_User_Type==User_Type.Driver) {
                             privController=3;
+                            Globals.Instance.setNationalID(int.parse(nationalId.text));
                             Navigator.push(context, MaterialPageRoute(builder: (context) => DriverHomePage(name: name.text, phone:int.parse(phoneController.text), national_id: int.parse(nationalId.text)) ));
                           } else {
                             print("error");

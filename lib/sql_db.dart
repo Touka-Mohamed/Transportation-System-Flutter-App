@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/foundation.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
@@ -5,7 +7,6 @@ import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
 class SqlDb {
   static Database? _db;
-
   Future<Database?> get db async {
     if (defaultTargetPlatform != TargetPlatform.android)
     {
@@ -274,13 +275,88 @@ FOREIGN KEY (order_number,  Route_id) REFERENCES Pick_up_Point  (order_number, r
     print(" Deleted DB =====================================");
   }
 
-  //await db.close();
-  //Future close() async {
-  //  final db = await database;
-  //  _database = null;
-  //  return db.close();
-  //}
-}
+    //Table-specific getters
+    getUserData(String username, String password) async
+    {
+      List<Map> response = await readData(
+          "select * from User_Table WHERE username= '${username}' and password= '${password}' ");
+      return response;
+    }
+
+    getPassengersNumberByRoute(String Route_id) async
+    {
+      List<Map> response = await readData(
+          "select * from Passenger WHERE Route_id = '$Route_id' ");
+      return response.length;
+    }
+
+    getPassengerData(String nationalID) async
+    {
+      List<Map> response = await readData(
+          "select * from Passenger WHERE NationalID = '$nationalID' ");
+      return response;
+    }
+
+    getRouteData(String routeID) async
+    {
+      List<Map> response = await readData(
+          "select * from Route WHERE Route_id= '$routeID'");
+      return response;
+    }
+
+    getAllRoutes() async
+    {
+      List<Map> response = await readData(
+          "select * from Route");
+      return response;
+    }
+
+    getPickupPoints(String routeID) async
+    {
+      List<Map> responses = await readData(
+          "select * from Pick_up_Point WHERE route_id = '$routeID'");
+      return responses;
+    }
+
+    getBusByNo(String bus_no) async
+    {
+      List<Map> responses = await readData(
+          "select * from Bus WHERE Bus_no = '$bus_no'");
+      return responses;
+    }
+
+    getNumberOfComplaints() async
+    {
+      List<Map> responses = await readData(
+          "select * from Complain");
+      return responses.length;
+    }
+
+    addComplaint(
+        String date,
+        String direction,
+        String description,
+        String title
+        ) async
+    {
+      String complaintDate = DateTime.now().toString();
+      int complaintID = await getNumberOfComplaints();
+      int passengerID = Globals.Instance.nationalID;
+      List<Map> passengerResponse = await getPassengerData(Globals.Instance.nationalID.toString());
+      String routeID = passengerResponse[0]['Route_id'].toString();
+      String query = 'INSERT into Complain '
+          'VALUES( $passengerID, '
+          '$date, '
+          '$direction, '
+          '$routeID, '
+          ', '
+          '$complaintID, '
+          '$complaintDate, '
+          '$description, '
+          '$title)';
+      insertData(query);
+    }
+  }
 
 //await db.insert('Product', <String, Object?>{'title': 'Product 1'});
 //await db.insert('Product', <String, Object?>{'title': 'Product 1'});
@@ -288,3 +364,21 @@ FOREIGN KEY (order_number,  Route_id) REFERENCES Pick_up_Point  (order_number, r
 //var result = await db.query('Product');
 //print(result);
 // prints [{id: 1, title: Product 1}, {id: 2, title: Product 1}]
+
+class Globals
+{
+  static final Globals Instance = Globals._internal();
+  factory Globals()
+  {
+    return Instance;
+  }
+
+  Globals._internal();
+
+  int _nationalID = 0;
+
+  int get nationalID => _nationalID;
+  void setNationalID(int value){
+    _nationalID = value;
+  }
+}

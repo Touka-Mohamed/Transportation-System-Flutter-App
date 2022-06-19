@@ -129,6 +129,7 @@ class PassengerSignupPageState extends State<PassengerSignupPage> {
                           int response = await sqlDb.insertData("""INSERT INTO Passenger('NationalID','Email','Emergency_contact',
                           'UST_id') 
                           VALUES ("${widget.national_id}","${emailController.text}","${int.parse(EmergencyController.text)}" ,"${int.parse(ustIDController.text)}") """)  ;
+                          print("This is the created data's response: ");
                           print(response);
 
                           Navigator.push(context, MaterialPageRoute(builder: (context) {return UserHomePage(name: widget.name, email: emailController.text, mobileNo: widget.mobileNo);}));

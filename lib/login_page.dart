@@ -126,7 +126,8 @@ class _LoginPage extends State<LoginPage> {
                                       national_id = response[0]['national_id'];
                                       if (response[0]['privilage'] == 3) {
                                         //if driver
-
+                                        Globals.Instance.setNationalID(national_id);
+                                        print(Globals.Instance.nationalID.toString() + ' == ' + national_id.toString() + "?");
                                         Navigator.push(
                                             context,
                                             MaterialPageRoute(
@@ -140,7 +141,7 @@ class _LoginPage extends State<LoginPage> {
                                         );
                                       } else if (response[0]['privilage'] == 2) {
                                         //if passenger
-
+                                        Globals.Instance.setNationalID(national_id);
                                         List<Map> passengerResponse = await sqlDb.readData(
                                             "select * from Passenger WHERE NationalID= '$national_id'");
                                         String email = passengerResponse[0]['Email'].toString();
@@ -155,6 +156,7 @@ class _LoginPage extends State<LoginPage> {
                                         }));
                                       } else if (response[0]['privilage'] == 1) {
                                         //if admin
+                                        Globals.Instance.setNationalID(national_id);
                                         Navigator.push(context,
                                             MaterialPageRoute(
                                                 builder: (context) {

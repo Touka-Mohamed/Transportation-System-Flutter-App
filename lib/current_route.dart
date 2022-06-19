@@ -28,9 +28,6 @@ class _CurrentRoute extends State<CurrentRoute> {
   @override
   Widget build(BuildContext context)  {
 
-    //List<Map> response =  sqlDb.readData("select * from Route WHERE Route_id= '${widget.routeid}'");
-    //String route_title = response[0]['title'];
-
 
     return Scaffold(
         appBar: AppBar(

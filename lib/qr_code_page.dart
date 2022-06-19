@@ -16,6 +16,8 @@ class QRCodePageState extends State<QRCodePage>
       (
       backgroundColor: Colors.grey,
       body: Center(
+        widthFactor: 1,
+        heightFactor: 1,
         child: Column
           (
           children: [
@@ -32,12 +34,19 @@ class QRCodePageState extends State<QRCodePage>
               ),
             ),
             const Spacer(),
-            ElevatedButton(
-              onPressed: (){},
-              style: ButtonStyle(backgroundColor: MaterialStateColor.resolveWith((states) => Colors.blue)),
-              child: const Text(
-                "Okay!",
-                  style: TextStyle(color: Colors.white),),),
+            SizedBox(
+              width: MediaQuery.of(context).size.width * 0.8,
+              height: MediaQuery.of(context).size.height * 0.05,
+              child: ElevatedButton(
+                onPressed: (){
+                  Navigator.pop(context);
+                },
+                style: ButtonStyle(
+                    backgroundColor: MaterialStateColor.resolveWith((states) => Colors.blue),),
+                child: const Text(
+                  "Okay!",
+                    style: TextStyle(color: Colors.white),),),
+            ),
             const Spacer(),
           ],
         ),

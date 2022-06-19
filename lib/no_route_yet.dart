@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'current_route.dart';
 
 class NoRouteYet extends StatefulWidget {
   const NoRouteYet({Key? key}) : super(key: key);
