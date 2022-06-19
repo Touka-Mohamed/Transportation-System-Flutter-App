@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:gui/login_page.dart';
 import 'package:gui/sql_db.dart';
 import 'package:gui/user_homepage.dart';
 
 import 'driver_homepage.dart';
 
 class PassengerSignupPage extends StatefulWidget {
-  const PassengerSignupPage({Key? key, required this.national_id}) : super(key: key);
+  const PassengerSignupPage({Key? key, required this.national_id, required this.name, required this.age, required this.mobileNo}) : super(key: key);
   final int national_id;
+  final String name;
+  final int mobileNo;
+  final int age;
 
   @override
   PassengerSignupPageState createState() {
@@ -26,8 +30,6 @@ class PassengerSignupPageState extends State<PassengerSignupPage> {
   TextEditingController emailController = TextEditingController();
   TextEditingController ustIDController = TextEditingController();
   TextEditingController EmergencyController = TextEditingController();
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -129,7 +131,7 @@ class PassengerSignupPageState extends State<PassengerSignupPage> {
                           VALUES ("${widget.national_id}","${emailController.text}","${int.parse(EmergencyController.text)}" ,"${int.parse(ustIDController.text)}") """)  ;
                           print(response);
 
-                          Navigator.push(context, MaterialPageRoute(builder: (context) {return const UserHomePage();}));
+                          Navigator.push(context, MaterialPageRoute(builder: (context) {return UserHomePage(name: widget.name, email: emailController.text, mobileNo: widget.mobileNo);}));
                         },
 
                         child: const Text('Continue',style: TextStyle(fontSize: 20)),

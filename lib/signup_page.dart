@@ -256,10 +256,10 @@ class _SignupPage extends State<SignupPage> {
                           } 
                           else if (_User_Type==User_Type.Passenger) {
                             privController=2;
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => PassengerSignupPage(national_id: int.parse(nationalId.text)) ));
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => PassengerSignupPage(national_id: int.parse(nationalId.text), name: name.text, mobileNo: int.parse(phoneController.text), age: int.parse(ageController.text)) ));
                           } else if (_User_Type==User_Type.Driver) {
                             privController=3;
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => DriverHomePage(name: name.text, phone:int.parse(phoneController.text), natioanlId: int.parse(nationalId.text)) ));
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => DriverHomePage(name: name.text, phone:int.parse(phoneController.text), national_id: int.parse(nationalId.text)) ));
                           } else {
                             print("error");
                           }
@@ -295,7 +295,6 @@ class _SignupPage extends State<SignupPage> {
               )
             ],
           ),
-
 
         ],
       ))

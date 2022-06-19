@@ -37,6 +37,7 @@ dependencies:
   flutter_datetime_picker: ^1.5.1
   sqflite_common_ffi: ^2.1.1
   sqflite: ^2.0.2+1
+  flutter_arc_text: ^0.5.0
 
 dev_dependencies:
   flutter_test:

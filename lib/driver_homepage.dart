@@ -5,11 +5,11 @@ import 'package:gui/sql_db.dart';
 import 'no_route_yet.dart';
 
 class DriverHomePage extends StatefulWidget {
-  const DriverHomePage({Key? key, required this.name, required this.phone, required this.natioanlId}) : super(key: key);
+  const DriverHomePage({Key? key, required this.name, required this.phone, required this.national_id}) : super(key: key);
   //const DriverHomePage({Key? key}) : super(key: key);
   final String name;
   final int phone;
-  final int natioanlId;
+  final int national_id;
 
   @override
   State<DriverHomePage> createState() => _DriverHomePage();
@@ -71,11 +71,11 @@ class _DriverHomePage extends State<DriverHomePage> {
                   onPressed: () async {
                     int response1 = await sqlDb.insertData("""INSERT INTO Route('Route_id','semester','year',
                           'driver_id','passengers_id','bus_no','title') 
-                          VALUES ("S06","FALL","2020" ,"${widget.natioanlId}", 
+                          VALUES ("S06","FALL","2020" ,"${widget.national_id}", 
                           "201700903", "6565", "NASR CITY") """)  ;
                     print(response1);
 
-                    List<Map> response = await sqlDb.readData("select * from Route WHERE driver_id= '${widget.natioanlId}' ");
+                    List<Map> response = await sqlDb.readData("select * from Route WHERE driver_id= '${widget.national_id}' ");
                     print(response);
                     if (response.length == 0) {
                       print("no route found");

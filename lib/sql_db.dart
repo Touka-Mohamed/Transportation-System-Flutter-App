@@ -34,6 +34,7 @@ class SqlDb {
   }
 
   _onCreate(Database db, int version) async {
+    //User table
     await db.execute('''
    CREATE TABLE "User_Table"
 (
@@ -46,7 +47,8 @@ class SqlDb {
 "phone_number"  INTEGER NOT NULL
 )
 ''');
- await db.execute('''
+    //Busses Table
+    await db.execute('''
     CREATE TABLE "Bus" 
 (
 "Bus_no"             TEXT   PRIMARY KEY,
@@ -55,6 +57,7 @@ class SqlDb {
 "driver_id"          INTEGER  
 )
 ''');
+    //Route Table
     await db.execute('''
 CREATE TABLE Route 
 (
@@ -75,7 +78,7 @@ FOREIGN KEY (bus_no) REFERENCES Bus (Bus_no)
 		ON DELETE  SET NULL
 )
     ''');
-
+    //Pick up point Table
     await db.execute('''
     CREATE TABLE Pick_up_Point 
 (
@@ -90,7 +93,7 @@ FOREIGN KEY (route_id) REFERENCES Route (Route_id)
 		ON DELETE  CASCADE
 )
     ''');
-
+    //Trip Table
     await db.execute('''
     CREATE TABLE Trip 
 (  
@@ -109,7 +112,7 @@ FOREIGN KEY (Bus_no) REFERENCES Bus (Bus_no)
 		ON DELETE  NO ACTION
 )
     ''');
-
+    //Passenger Table
     await db.execute('''
     CREATE TABLE Passenger
 (
@@ -131,7 +134,7 @@ FOREIGN KEY (Pick_up_Point_order_number, Route_id) REFERENCES Pick_up_Point (ord
 		ON DELETE NO ACTION
 )
     ''');
-
+    //Complaint Table
     await db.execute('''
     CREATE TABLE Complain 
 (
@@ -153,7 +156,7 @@ FOREIGN KEY (Route_id, Day , Direction, Bus_no) REFERENCES Trip  (Route_id, Day 
 		ON DELETE  CASCADE
 )
     ''');
-
+    //Exception Table
     await db.execute('''
     CREATE TABLE Exception 
 (
@@ -182,7 +185,7 @@ FOREIGN KEY (Demanded_Route_id, Demanded_Day,  Demanded_Direction, Demanded_Bus_
 		ON DELETE  NO ACTION
 )
     ''');
-
+    //Maintenance Table
     await db.execute('''
     CREATE TABLE Maintenance 
 (
@@ -197,7 +200,7 @@ FOREIGN KEY (Bus_no ) REFERENCES Bus (Bus_no)
 		ON DELETE CASCADE
 )
     ''');
-
+    //Attendance Table
     await db.execute('''
     CREATE TABLE Attended_By 
 (
@@ -217,7 +220,7 @@ FOREIGN KEY (Passenger_ID ) REFERENCES Passenger (NationalID)
 		ON DELETE NO ACTION
 )
     ''');
-
+    //Arrival Table
     await db.execute('''
     CREATE TABLE Arrived_at 
 (
