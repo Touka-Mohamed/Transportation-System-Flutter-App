@@ -373,6 +373,13 @@ FOREIGN KEY (order_number,  Route_id) REFERENCES Pick_up_Point  (order_number, r
       return responses;
     }
 
+    getAllTrips() async
+    {
+      List<Map> responses = await readData(
+          "select * from Trip");
+      return responses;
+    }
+
     addComplaintInternal(
         int passengerID,
         String date,
@@ -541,6 +548,23 @@ FOREIGN KEY (order_number,  Route_id) REFERENCES Pick_up_Point  (order_number, r
           '"$maintenanceID", '
           '"$capacity", '
           '"$driverID")';
+      await insertData(query);
+    }
+
+    addTripInternal(
+        String date,
+        String direction,
+        String routeID,
+        String busNo,
+        String arrivalTime
+        ) async
+    {
+      String query = 'INSERT into Trip '
+          'VALUES( "$date", '
+          '"$direction", '
+          '"$routeID", '
+          '"$busNo", '
+          '"$arrivalTime")';
       await insertData(query);
     }
   }

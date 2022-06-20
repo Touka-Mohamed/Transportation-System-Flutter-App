@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gui/sql_db.dart';
 import '../../data/data.dart';
 
 class TripsView extends StatefulWidget {
@@ -11,22 +12,36 @@ class _TripsViewState extends State<TripsView> {
   late double viewHeight;
   late double viewWidth;
 
-  String dropdownvalue_day = '4/5/2022';   
-  String dropdownvalue_direction= 'To ZC';
-  String dropdownvalue_route= 'Route_ID 1';
+  Widget dataTable = Container();
+  @override
+  initState()
+  {
+    super.initState();
+    init();
+  }
+
+  init() async
+  {
+    var data = await buildDatatable();
+    setState( ()=> dataTable = data );
+  }
+
+  String dropdownvalue_day = '4/5/2022';
+  String dropdownvalue_direction = 'To ZC';
+  String dropdownvalue_route = 'Route_ID 1';
 
   // List of items in our dropdown menu
-  var day_items = [    
+  var day_items = [
     '4/5/2022',
     '5/5/2022',
   ];
 
-  var direction_items = [    
+  var direction_items = [
     'To ZC',
     'From ZC',
   ];
 
-  var routes_items = [    
+  var routes_items = [
     'Route_ID 1',
     'Route_ID 2',
     'Route_ID 3',
@@ -52,85 +67,75 @@ class _TripsViewState extends State<TripsView> {
               Container(
                 height: screenHeight * 0.05,
               ),
-
               SizedBox(
-                height: screenHeight * 0.1,
-                width: viewWidth*0.5,
-                child: 
-
-                Row(children: <Widget>[ 
-
-                const Text('Filter:     '),
-              
-              DropdownButton(
-              // Initial Value
-              value: dropdownvalue_day,
-              // Down Arrow Icon
-              icon: const Icon(Icons.keyboard_arrow_down),    
-              // Array list of items
-              items: day_items.map((String items) {
-                return DropdownMenuItem(
-                  value: items,
-                  child: Text(items),
-                );
-              }).toList(),
-              // After selecting the desired option,it will
-              // change button value to selected value
-              onChanged: (String? newValue) { 
-                setState(() {
-                  dropdownvalue_day = newValue!;
-                });
-              },
-            ),
-
-            const Spacer(),
-            
-            DropdownButton(
-              // Initial Value
-              value: dropdownvalue_direction,
-              // Down Arrow Icon
-              icon: const Icon(Icons.keyboard_arrow_down),    
-              // Array list of items
-              items: direction_items.map((String items) {
-                return DropdownMenuItem(
-                  value: items,
-                  child: Text(items),
-                );
-              }).toList(),
-              // After selecting the desired option,it will
-              // change button value to selected value
-              onChanged: (String? newValue) { 
-                setState(() {
-                  dropdownvalue_direction = newValue!;
-                });
-              },
-            ),
-
-            const Spacer(),
-            
-            DropdownButton(
-              // Initial Value
-              value: dropdownvalue_route,
-              // Down Arrow Icon
-              icon: const Icon(Icons.keyboard_arrow_down),    
-              // Array list of items
-              items: routes_items.map((String items) {
-                return DropdownMenuItem(
-                  value: items,
-                  child: Text(items),
-                );
-              }).toList(),
-              // After selecting the desired option,it will
-              // change button value to selected value
-              onChanged: (String? newValue) { 
-                setState(() {
-                  dropdownvalue_route = newValue!;
-                });
-              },
-            )
-            ])),
-
-              buildDatatable(),
+                  height: screenHeight * 0.1,
+                  width: viewWidth * 0.5,
+                  child: Row(children: <Widget>[
+                    const Text('Filter:     '),
+                    DropdownButton(
+                      // Initial Value
+                      value: dropdownvalue_day,
+                      // Down Arrow Icon
+                      icon: const Icon(Icons.keyboard_arrow_down),
+                      // Array list of items
+                      items: day_items.map((String items) {
+                        return DropdownMenuItem(
+                          value: items,
+                          child: Text(items),
+                        );
+                      }).toList(),
+                      // After selecting the desired option,it will
+                      // change button value to selected value
+                      onChanged: (String? newValue) {
+                        setState(() {
+                          dropdownvalue_day = newValue!;
+                        });
+                      },
+                    ),
+                    const Spacer(),
+                    DropdownButton(
+                      // Initial Value
+                      value: dropdownvalue_direction,
+                      // Down Arrow Icon
+                      icon: const Icon(Icons.keyboard_arrow_down),
+                      // Array list of items
+                      items: direction_items.map((String items) {
+                        return DropdownMenuItem(
+                          value: items,
+                          child: Text(items),
+                        );
+                      }).toList(),
+                      // After selecting the desired option,it will
+                      // change button value to selected value
+                      onChanged: (String? newValue) {
+                        setState(() {
+                          dropdownvalue_direction = newValue!;
+                        });
+                      },
+                    ),
+                    const Spacer(),
+                    DropdownButton(
+                      // Initial Value
+                      value: dropdownvalue_route,
+                      // Down Arrow Icon
+                      icon: const Icon(Icons.keyboard_arrow_down),
+                      // Array list of items
+                      items: routes_items.map((String items) {
+                        return DropdownMenuItem(
+                          value: items,
+                          child: Text(items),
+                        );
+                      }).toList(),
+                      // After selecting the desired option,it will
+                      // change button value to selected value
+                      onChanged: (String? newValue) {
+                        setState(() {
+                          dropdownvalue_route = newValue!;
+                        });
+                      },
+                    )
+                  ])),
+              dataTable,
             ],
           ),
         ),
@@ -138,17 +143,17 @@ class _TripsViewState extends State<TripsView> {
     ]);
   }
 
-  Widget buildDatatable() {
+  Future<Widget> buildDatatable() async{
     final columns = [
-      'no',
-      'Name',
-      'ID',
-      'Payment Date',
-      'Route',
-      'Email',
-      'Approval'
+      'Date',
+      'Direction',
+      'Route ID',
+      'Bus Number',
+      'Arrival Time',
     ];
-    return DataTable(columns: getColumns(columns), rows: getRows(allPAYMENTS));
+    List<Map> tripsResponses = await SqlDb().getAllTrips();
+    print("Trips: ${tripsResponses.length}");
+    return DataTable(columns: getColumns(columns), rows: getRows(tripsResponses));
   }
 
   List<DataColumn> getColumns(List<String> columns) => columns
@@ -157,16 +162,14 @@ class _TripsViewState extends State<TripsView> {
           ))
       .toList();
 
-  List<DataRow> getRows(List<payment> payments) {
-    return payments.map((payment payment) {
+  List<DataRow> getRows(List<Map> trips) {
+    return trips.map((Map trip) {
       final cells = [
-        payment.no,
-        payment.name,
-        payment.id,
-        payment.payment_date,
-        payment.route,
-        payment.Email,
-        payment.approval
+        trip['Day'],
+        trip['Direction'],
+        trip['Route_id'],
+        trip['Bus_no'],
+        trip['time_at_university'],
       ];
       return DataRow(cells: getCells(cells));
     }).toList();

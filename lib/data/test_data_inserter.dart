@@ -10,6 +10,7 @@ class DataInserter
     PickUpPointData.allPickUpPoints,
     BusData.allBussesData,
     ComplainData.allComplaints,
+    TripData.allTripsData,
 
   ];
   static void insertAll() async
@@ -336,5 +337,48 @@ class ComplainData extends Data
 
   @override
   Future<void> insert() => SqlDb().addComplaintInternal(passengerID, date, direction, routeID, busNo, complaintID, complaintDate, description, title);
+
+}
+
+class TripData extends Data
+{
+  static List<TripData> allTripsData = [
+    TripData()
+    ..direction = 'Dusk Trip'
+    ..date = '1992.02.09'
+    ..busNo = '0'
+    ..routeID = '0'
+    ..arrivalTime = '2:04 AM',
+
+    TripData()
+      ..direction = 'Dusk Trip'
+      ..date = '1992.02.10'
+      ..busNo = '0'
+      ..routeID = '0'
+      ..arrivalTime = '2:02 AM',
+
+    TripData()
+      ..direction = 'Dusk Trip'
+      ..date = '1992.02.11'
+      ..busNo = '0'
+      ..routeID = '0'
+      ..arrivalTime = '2:08 AM',
+
+    TripData()
+      ..direction = 'Dusk Trip'
+      ..date = '1992.02.12'
+      ..busNo = '0'
+      ..routeID = '0'
+      ..arrivalTime = '2:00 AM',
+  ];
+
+  late String date;
+  late String direction;
+  late String routeID;
+  late String busNo;
+  late String arrivalTime;
+
+  @override
+  Future<void> insert() => SqlDb().addTripInternal(date, direction, routeID, busNo, arrivalTime);
 
 }
