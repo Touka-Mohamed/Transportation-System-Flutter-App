@@ -1,163 +1,308 @@
 import 'package:flutter/material.dart';
-import 'package:gui/sql_db.dart';
 
 class CurrentRoutesUserPage extends StatefulWidget {
-  SqlDb sqlDb = SqlDb();
-  CurrentRoutesUserPage({Key? key}) : super(key: key);
+  const CurrentRoutesUserPage({Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => CurrentRoutesUserPageState();
 }
 
 class CurrentRoutesUserPageState extends State<CurrentRoutesUserPage> {
-
-  List<RouteContainer> routeContainers = [];
-  @override
-  void initState()
-  {
-    super.initState();
-    init();
-  }
-
-  void init() async
-  {
-    List<Map> responses = await widget.sqlDb.getAllRoutes();
-    for(var route in responses)
-    {
-      RouteContainer tempContainer = RouteContainer(routeID: route['Route_id'].toString(),);
-      routeContainers.add(tempContainer);
-    }
-  }
+  bool route1 = false;
+  bool route2 = false;
+  bool route3 = false;
+  bool route4 = false;
+  bool route5 = false;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: const Text("Current Routes", textAlign: TextAlign.center),
+        title: Row(
+          children: [
+            BackButton(color: Colors.white, onPressed: () {}),
+            const Spacer(),
+            const Text("Current Routes", textAlign: TextAlign.center),
+            const Spacer(),
+          ],
+        ),
       ),
       body: Center(
         child: Column(
-          children: routeContainers,
+          children: [
+            Container(
+                color: Colors.greenAccent,
+                child: Column(children: [
+                  Container(
+                    width: MediaQuery.of(context).size.width,
+                    height: 50.0,
+                    decoration: const BoxDecoration(
+                      color: Colors.blue,
+                    ),
+                    child: ElevatedButton(
+                      style: ButtonStyle(
+                        backgroundColor: MaterialStateColor.resolveWith(
+                            (states) => Colors.greenAccent),
+                      ),
+                      child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: const [
+                            Text("Route 1", style: TextStyle(fontSize: 20)),
+                            Text("0/40", style: TextStyle(fontSize: 20)),
+                          ]),
+                      onPressed: () {
+                        setState(() {
+                          route1 = !route1;
+                        });
+                      },
+                    ),
+                  ),
+                  Visibility(
+                    visible: route1,
+                    child: Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: const [
+                            Text("Pickup point 1"),
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: const [
+                            Text("Pickup point 2"),
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: const [
+                            Text("Pickup point 3"),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ])),
+            //20/42
+            Container(
+                color: Colors.greenAccent,
+                child: Column(children: [
+                  Container(
+                    width: MediaQuery.of(context).size.width,
+                    height: 50.0,
+                    decoration: const BoxDecoration(
+                      color: Colors.blue,
+                    ),
+                    child: ElevatedButton(
+                      style: ButtonStyle(
+                        backgroundColor: MaterialStateColor.resolveWith(
+                            (states) => Colors.greenAccent),
+                      ),
+                      child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: const [
+                            Text("Route 2", style: TextStyle(fontSize: 20)),
+                            Text("20/42", style: TextStyle(fontSize: 20)),
+                          ]),
+                      onPressed: () {
+                        setState(() {
+                          route2 = !route2;
+                        });
+                      },
+                    ),
+                  ),
+                  Visibility(
+                    visible: route2,
+                    child: Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: const [
+                            Text("Pickup point 1"),
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: const [
+                            Text("Pickup point 2"),
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: const [
+                            Text("Pickup point 3"),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ])),
+            //42/42
+            Container(
+                color: Colors.redAccent,
+                child: Column(children: [
+                  Container(
+                    width: MediaQuery.of(context).size.width,
+                    height: 50.0,
+                    decoration: const BoxDecoration(
+                      color: Colors.blue,
+                    ),
+                    child: ElevatedButton(
+                      style: ButtonStyle(
+                        backgroundColor: MaterialStateColor.resolveWith(
+                            (states) => Colors.redAccent),
+                      ),
+                      child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: const [
+                            Text("Route 3", style: TextStyle(fontSize: 20)),
+                            Text("42/42", style: TextStyle(fontSize: 20)),
+                          ]),
+                      onPressed: () {
+                        setState(() {
+                          route3 = !route3;
+                        });
+                      },
+                    ),
+                  ),
+                  Visibility(
+                    visible: route3,
+                    child: Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: const [
+                            Text("Pickup point 1"),
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: const [
+                            Text("Pickup point 2"),
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: const [
+                            Text("Pickup point 3"),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ])),
+            //26/42
+            Container(
+                color: Colors.grey,
+                child: Column(children: [
+                  Container(
+                    width: MediaQuery.of(context).size.width,
+                    height: 50.0,
+                    decoration: const BoxDecoration(
+                      color: Colors.blue,
+                    ),
+                    child: ElevatedButton(
+                      style: ButtonStyle(
+                        backgroundColor: MaterialStateColor.resolveWith(
+                            (states) => Colors.grey),
+                      ),
+                      child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: const [
+                            Text("Route 4", style: TextStyle(fontSize: 20)),
+                            Text("26/42", style: TextStyle(fontSize: 20)),
+                          ]),
+                      onPressed: () {
+                        setState(() {
+                          route4 = !route4;
+                        });
+                      },
+                    ),
+                  ),
+                  Visibility(
+                    visible: route4,
+                    child: Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: const [
+                            Text("Pickup point 1"),
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: const [
+                            Text("Pickup point 2"),
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: const [
+                            Text("Pickup point 3"),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ])),
+            //26/42
+            Container(
+                color: Colors.lightBlueAccent,
+                child: Column(children: [
+                  Container(
+                    width: MediaQuery.of(context).size.width,
+                    height: 50.0,
+                    decoration: const BoxDecoration(
+                      color: Colors.blue,
+                    ),
+                    child: ElevatedButton(
+                      style: ButtonStyle(
+                        backgroundColor: MaterialStateColor.resolveWith(
+                            (states) => Colors.lightBlueAccent),
+                      ),
+                      child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: const [
+                            Text("Route 5", style: TextStyle(fontSize: 20)),
+                            Text("26/42", style: TextStyle(fontSize: 20)),
+                          ]),
+                      onPressed: () {
+                        setState(() {
+                          route5 = !route5;
+                        });
+                      },
+                    ),
+                  ),
+                  Visibility(
+                    visible: route5,
+                    child: Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: const [
+                            Text("Pickup point 1"),
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: const [
+                            Text("Pickup point 2"),
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: const [
+                            Text("Pickup point 3"),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ])),
+          ],
         ),
       ),
     );
   }
-}
-
-class RouteContainer extends StatefulWidget
-{
-  RouteContainer({Key? key, required this.routeID}) : super(key: key);
-  bool visible = false;
-  final String routeID;
-  Color colorBasedOnStatus = Colors.greenAccent;
-
-  List<String> pickupPoints = [];
-  List<PickUpPointContainer> pickupPointsContainers = [];
-  late String title;
-  int capacity = 42;
-  int numOfPassengers = 0;
-  @override
-  State<StatefulWidget> createState() => RouteContainerState();
-
-}
-
-class RouteContainerState extends State<RouteContainer>
-{
-  SqlDb sqlDb = SqlDb();
-  @override
-  void initState()
-  {
-    super.initState();
-    init();
-  }
-
-  void init() async
-  {
-    List<Map> routeResponse = await sqlDb.getRouteData(widget.routeID);
-    List<Map> pickUpPointsResponse = await sqlDb.getPickupPoints(widget.routeID);
-    List<Map> passengerResponse = await sqlDb.getPassengerData(Globals.Instance.nationalID.toString());
-    widget.numOfPassengers = await sqlDb.getPassengersNumberByRoute(widget.routeID);
-
-    widget.title = routeResponse[0]['title'].toString();
-    String busNo = routeResponse[0]['bus_no'].toString();
-    List<Map> busResponse = await sqlDb.getBusByNo(busNo);
-    if(busResponse.isNotEmpty && busResponse[0]['capacity'].toString() != null && busResponse[0]['capacity'].toString().isNotEmpty)
-    {
-      setState(()=> widget.capacity = busResponse[0]['capacity']);
-    }
-    for(var point in pickUpPointsResponse)
-    {
-      PickUpPointContainer container = PickUpPointContainer(title: point['address'],);
-      setState( () => widget.pickupPointsContainers.add(container));
-    }
-
-    if(passengerResponse[0]['Route_id'].toString() != null && passengerResponse[0]['Route_id'].toString().isNotEmpty)
-    {
-      return;
-    }
-
-    if(passengerResponse[0]['Route_id'].toString() == widget.routeID)
-    {
-      setState(()=> widget.colorBasedOnStatus = Colors.blueAccent);
-    }
-
-    if(widget.numOfPassengers == widget.capacity)
-    {
-      setState(()=> widget.colorBasedOnStatus = Colors.redAccent);
-    }
-  }
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-        color: widget.colorBasedOnStatus,
-        child: Column(children: [
-          Container(
-            width: MediaQuery.of(context).size.width,
-            height: 50.0,
-            decoration: const BoxDecoration(
-              color: Colors.blue,
-            ),
-            child: ElevatedButton(
-              style: ButtonStyle(
-                backgroundColor: MaterialStateColor.resolveWith(
-                        (states) => widget.colorBasedOnStatus),
-              ),
-              child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Text(widget.title, style: const TextStyle(fontSize: 20)),
-                    Text("${widget.numOfPassengers}/${widget.capacity}", style: const TextStyle(fontSize: 20)),
-                  ]),
-              onPressed: () {
-                setState(() {
-                  widget.visible = !widget.visible;
-                });
-              },
-            ),
-          ),
-          Visibility(
-            visible: widget.visible,
-            child: Column(
-              children: widget.pickupPointsContainers,
-            ),
-          ),
-        ]));
-  }
-}
-
-class PickUpPointContainer extends StatelessWidget
-{
-  const PickUpPointContainer({Key? key, required this.title}) : super(key: key);
-  final String title;
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children:[
-        Text(title),
-      ],
-    );
-  }
-
 }

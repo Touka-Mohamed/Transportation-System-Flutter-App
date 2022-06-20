@@ -1,23 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:gui/sql_db.dart';
 import 'package:gui/started_current_route.dart';
 
 class CurrentRoute extends StatefulWidget {
-  const CurrentRoute({Key? key, required this.routeid, required this.route_title, required this.semester, required this.year, required this.bus_num}) : super(key: key);
-
-  final String routeid;
-  final String route_title;
-  final String semester;
-  final int year;
-  final String bus_num;
+  const CurrentRoute({Key? key}) : super(key: key);
 
   @override
   State<CurrentRoute> createState() => _CurrentRoute();
 }
 
 class _CurrentRoute extends State<CurrentRoute> {
-
-  SqlDb sqlDb = SqlDb(); //instance of the database class
 
   String descText1 = "Pickup point 1\nPickup point 2\nPickup point 3\nPickup point 4\nPickup point 5\nPickup point 6";
   String descText2 = "Passenger name 1\nPassenger name 2\nPassenger name 3\nPassenger name 4\nPassenger name 5\nPassenger name 6";
@@ -26,20 +17,18 @@ class _CurrentRoute extends State<CurrentRoute> {
   bool descTextShowFlag2 = false;
 
   @override
-  Widget build(BuildContext context)  {
-
-
+  Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title:  Text("Route ${widget.routeid} (${widget.route_title})"),
+          title: const Text("Route ID"),
         ),
         body: Column(children: <Widget>[
 
           Container(
               alignment: Alignment.center,
               padding: const EdgeInsets.fromLTRB(50, 50, 50, 50),
-              child:  Text(
-                'Description\nPeriod: ${widget.semester} ${widget.year}\nBus: ${widget.bus_num}',
+              child: const Text(
+                'Description',
                 style: TextStyle(fontSize: 20),
               )),
 
@@ -118,7 +107,7 @@ class _CurrentRoute extends State<CurrentRoute> {
           ElevatedButton(
             child: const Text('Start Route',style: TextStyle(fontSize: 20)),
             onPressed: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => StartedCurrentRoute(routeid: widget.routeid, route_title: widget.route_title, semester: widget.semester, year: "${widget.year}", bus_num: widget.bus_num)));
+              Navigator.push(context, MaterialPageRoute(builder: (context) {return const StartedCurrentRoute();}));
             },
           ),
 

@@ -1,12 +1,7 @@
 import 'package:flutter/material.dart';
 
 class StartedCurrentRoute extends StatefulWidget {
-  const StartedCurrentRoute({Key? key, required this.routeid, required this.route_title, required this.semester, required this.year, required this.bus_num}) : super(key: key);
-  final String routeid;
-  final String route_title;
-  final String semester;
-  final String year;
-  final String bus_num;
+  const StartedCurrentRoute({Key? key}) : super(key: key);
 
   @override
   State<StartedCurrentRoute> createState() => _StartedCurrentRoute();
@@ -24,15 +19,15 @@ class _StartedCurrentRoute extends State<StartedCurrentRoute> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title:  Text("Route ${widget.routeid} (${widget.route_title})"),
+          title: const Text("Route ID"),
         ),
         body: Column(children: <Widget>[
 
           Container(
               alignment: Alignment.center,
               padding: const EdgeInsets.fromLTRB(50, 50, 50, 50),
-              child:  Text(
-                'Description\nPeriod: ${widget.semester} ${widget.year}\nBus: ${widget.bus_num}',
+              child: const Text(
+                'Description',
                 style: TextStyle(fontSize: 20),
               )),
 

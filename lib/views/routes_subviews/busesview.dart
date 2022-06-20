@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gui/data/controller.dart';
 import '../../data/data.dart';
+import '../../widgets/scrollable_widget.dart';
 
 class BusesView extends StatefulWidget {
   @override
@@ -11,17 +12,15 @@ class _BusesViewState extends State<BusesView> {
   late double screenHeight;
   late double viewHeight;
   late double viewWidth;
-
+  List<Bus> selected = [];
+  //  List<bool> _selected = [];
   @override
   Widget build(BuildContext context) {
     screenHeight = MediaQuery.of(context).size.height;
     viewHeight = screenHeight * 0.8;
     viewWidth = MediaQuery.of(context).size.width;
-<<<<<<< Updated upstream
-=======
 
     // _selected = List<bool>.generate(allBUSES.length, (int index) => false);
->>>>>>> Stashed changes
     return desktopView();
   }
 
@@ -35,21 +34,12 @@ class _BusesViewState extends State<BusesView> {
               Container(
                 height: screenHeight * 0.05,
               ),
-<<<<<<< Updated upstream
-              Container(
-                height: screenHeight * 0.1,
-                child: Center(child: Text('filters1')),
-              ),
-              buildDatatable(),
-              EditMode(),
-=======
               Expanded(child: ScrollableWidget(child: buildDatatable())),
               EditMode(),
               SizedBox(height: 12),
               Addbtn(),
               SizedBox(height: 12),
               deletebtn(),
->>>>>>> Stashed changes
             ],
           ),
         ),
@@ -65,9 +55,6 @@ class _BusesViewState extends State<BusesView> {
       'Driver Name',
       'Driver_contact',
     ];
-<<<<<<< Updated upstream
-    return DataTable(columns: getColumns(columns), rows: getRows(allBUSES));
-=======
     return DataTable(
       columns: getColumns(columns),
       rows: getRows(allBUSES),
@@ -75,7 +62,6 @@ class _BusesViewState extends State<BusesView> {
       dataTextStyle:
           const TextStyle(fontSize: 17, color: Colors.white, height: 1.25),
     );
->>>>>>> Stashed changes
   }
 
   List<DataColumn> getColumns(List<String> columns) => columns
@@ -85,20 +71,6 @@ class _BusesViewState extends State<BusesView> {
       .toList();
 
   List<DataRow> getRows(List<Bus> buses) {
-<<<<<<< Updated upstream
-    return buses.map((Bus Bus) {
-      final cells = [
-        Bus.Route,
-        Bus.Bus_no,
-        Bus.Capacity,
-        Bus.DriverName,
-        Bus.Driver_contact,
-        Bus.Select
-      ];
-
-      return DataRow(cells: getCells(cells));
-    }).toList();
-=======
     // return buses.map((Bus Bus) {
     return buses
         .map((Bus Bus) => DataRow(
@@ -139,34 +111,30 @@ class _BusesViewState extends State<BusesView> {
               // // return buses.map((index, cells) => DataRow(cells: getCells(cells)));
             ))
         .toList();
->>>>>>> Stashed changes
   }
 
   bool? _isEditMode = false;
-  List<DataCell> getCells(List<dynamic> cells) =>
-      // cells.map((data) => DataCell(Text('$data'))).toList();
-      cells.map((data) => _createdynamicCell(data)).toList();
+  // List<DataCell> getCells(List<dynamic> cells) =>
+  //     cells.map((data) => DataCell(Text('$data'))).toList();
+  //     // cells.map((data) => _createdynamicCell(data)).toList();
+  //     // cells.mapIndexed((index, data) => _createdynamicCell(data)).toList();
 
   DataCell _createdynamicCell(data) {
     return DataCell(_isEditMode == true
         ? TextFormField(
-<<<<<<< Updated upstream
-            initialValue: data,
-            style: TextStyle(
-=======
             initialValue: "${data}",
             style: const TextStyle(
->>>>>>> Stashed changes
                 fontSize: 17,
                 color: Colors.white,
                 fontFamily: 'DMSerifDisplay'))
-        : Text(data));
+        : Text('$data'));
   }
 
   Row EditMode() {
     return Row(
       children: [
         Checkbox(
+          hoverColor: Colors.grey[500],
           value: _isEditMode,
           onChanged: (value) {
             setState(() {
@@ -174,12 +142,6 @@ class _BusesViewState extends State<BusesView> {
             });
           },
         ),
-<<<<<<< Updated upstream
-        Text('Edit mode'),
-      ],
-    );
-  }
-=======
         const Text('Edit mode', style: (TextStyle(color: Colors.white))),
       ],
     );
@@ -387,5 +349,4 @@ class _BusesViewState extends State<BusesView> {
   /////////////////////////////////
   ///
 
->>>>>>> Stashed changes
 }

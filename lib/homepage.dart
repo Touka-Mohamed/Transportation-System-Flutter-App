@@ -66,6 +66,7 @@ class _AdminHomePageState extends State<AdminHomePage>
 
   @override
   Widget build(BuildContext context) {
+    //=============================================================================
     screenWidth = MediaQuery.of(context).size.width;
     screenHeight = MediaQuery.of(context).size.height;
     topPadding = screenHeight * 0.05;
@@ -94,7 +95,7 @@ class _AdminHomePageState extends State<AdminHomePage>
         ));
   }
 
-  Widget desktopView() {
+  Widget S() {
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,

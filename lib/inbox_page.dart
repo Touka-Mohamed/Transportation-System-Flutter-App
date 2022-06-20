@@ -1,8 +1,5 @@
-<<<<<<< Updated upstream
-=======
 // import 'dart:js_util';
 
->>>>>>> Stashed changes
 import 'package:flutter/material.dart';
 
 enum SelectOptions { exceptions, complains }
