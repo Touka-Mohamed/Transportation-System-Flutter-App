@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gui/sql_db.dart';
 import '../../data/data.dart';
 
 class BusesView extends StatefulWidget {
@@ -10,6 +11,21 @@ class _BusesViewState extends State<BusesView> {
   late double screenHeight;
   late double viewHeight;
   late double viewWidth;
+
+  Widget dataTable = Container();
+
+  @override
+  initState()
+  {
+    super.initState();
+    init();
+  }
+
+  init() async
+  {
+    Widget data = await buildDatatable();
+    setState( ()=> dataTable = data );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,11 +45,11 @@ class _BusesViewState extends State<BusesView> {
               Container(
                 height: screenHeight * 0.05,
               ),
-              Container(
+              SizedBox(
                 height: screenHeight * 0.1,
-                child: Center(child: Text('filters1')),
+                child: const Center(child: Text('filters1')),
               ),
-              buildDatatable(),
+              dataTable,
               EditMode(),
             ],
           ),
@@ -42,16 +58,15 @@ class _BusesViewState extends State<BusesView> {
     ]);
   }
 
-  Widget buildDatatable() {
+  Future<Widget> buildDatatable() async {
     final columns = [
-      'Route',
       'Bus no',
       'Capacity',
-      'Driver Name',
-      'Driver_contact',
-      'Select'
+      'Driver ID',
     ];
-    return DataTable(columns: getColumns(columns), rows: getRows(allBUSES));
+    List<Map> busResponses = await SqlDb().getAllBusses();
+    print( 'Rows: ${busResponses.length}' );
+    return DataTable(columns: getColumns(columns), rows: getRows(busResponses));
   }
 
   List<DataColumn> getColumns(List<String> columns) => columns
@@ -60,15 +75,12 @@ class _BusesViewState extends State<BusesView> {
           ))
       .toList();
 
-  List<DataRow> getRows(List<Bus> buses) {
-    return buses.map((Bus Bus) {
+  List<DataRow> getRows(List<Map> buses) {
+    return buses.map((Map Bus) {
       final cells = [
-        Bus.Route,
-        Bus.Bus_no,
-        Bus.Capacity,
-        Bus.DriverName,
-        Bus.Driver_contact,
-        Bus.Select
+        Bus['Bus_no'].toString(),
+        Bus['capacity'].toString(),
+        Bus['driver_id'].toString(),
       ];
 
       return DataRow(cells: getCells(cells));

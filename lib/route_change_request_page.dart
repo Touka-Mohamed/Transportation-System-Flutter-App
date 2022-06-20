@@ -219,7 +219,7 @@ class RouteContainerState extends State<RouteContainer>
   {
     print(widget.routeID);
     List<Map> routeResponse = await sqlDb.getRouteData(widget.routeID);
-    List<Map> pickUpPointsResponse = await sqlDb.getPickupPoints(widget.routeID);
+    List<Map> pickUpPointsResponse = await sqlDb.getPickupPointsByRouteID(widget.routeID);
     List<Map> passengerResponse = await sqlDb.getPassengerData(Globals.Instance.nationalID.toString());
     int passengersNo = await sqlDb.getPassengersNumberByRoute(widget.routeID);
     setState( ()=> widget.numOfPassengers = passengersNo );

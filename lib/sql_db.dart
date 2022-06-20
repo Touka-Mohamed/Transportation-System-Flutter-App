@@ -283,6 +283,13 @@ FOREIGN KEY (order_number,  Route_id) REFERENCES Pick_up_Point  (order_number, r
       return response;
     }
 
+    getAllPassengers() async
+    {
+      List<Map> responses = await readData(
+          "select * from Passenger ");
+      return responses;
+    }
+
     getPassengersNumberByRoute(String Route_id) async
     {
       List<Map> response = await readData(
@@ -317,10 +324,17 @@ FOREIGN KEY (order_number,  Route_id) REFERENCES Pick_up_Point  (order_number, r
       return response;
     }
 
-    getPickupPoints(String routeID) async
+    getPickupPointsByRouteID(String routeID) async
     {
       List<Map> responses = await readData(
           "select * from Pick_up_Point WHERE route_id = '$routeID'");
+      return responses;
+    }
+
+    getAllPickupPoints() async
+    {
+      List<Map> responses = await readData(
+          "select * from Pick_up_Point ");
       return responses;
     }
 
@@ -343,6 +357,45 @@ FOREIGN KEY (order_number,  Route_id) REFERENCES Pick_up_Point  (order_number, r
       List<Map> responses = await readData(
           "select * from Exception");
       return responses.length;
+    }
+
+    getAllBusses() async
+    {
+      List<Map> responses = await readData(
+          "select * from Bus");
+      return responses;
+    }
+
+    getAllComplaints() async
+    {
+      List<Map> responses = await readData(
+          "select * from Complain");
+      return responses;
+    }
+
+    addComplaintInternal(
+        int passengerID,
+        String date,
+        String direction,
+        String routeID,
+        String busNo,
+        int complaintID,
+        String complaintDate,
+        String description,
+        String title,
+        ) async
+    {
+      String query = 'INSERT into Complain '
+      'VALUES( "$passengerID", '
+          '"$date", '
+          '"$direction", '
+          '"$routeID", '
+          '"$busNo", '
+          '"$complaintID", '
+          '"$complaintDate", '
+          '"$description", '
+          '"$title")';
+      await insertData(query);
     }
 
     addUser(
@@ -374,7 +427,7 @@ FOREIGN KEY (order_number,  Route_id) REFERENCES Pick_up_Point  (order_number, r
         {String paymentDate = '', String routeID = '', int pickUpPointOrderNumber = 0,}
         ) async
     {
-      String query = 'INSERT into User_Table '
+      String query = 'INSERT into Passenger '
           'VALUES( "$nationalID", '
           '"$email", '
           '"$paymentDate", '
@@ -473,6 +526,21 @@ FOREIGN KEY (order_number,  Route_id) REFERENCES Pick_up_Point  (order_number, r
           '"$orderNo", '
           '"$routeID", '
           '"$time")';
+      await insertData(query);
+    }
+
+    addBus(
+        String busNo,
+        int capacity,
+        String maintenanceID,
+        String driverID
+        ) async
+    {
+      String query = 'INSERT into Bus '
+          'VALUES( "$busNo", '
+          '"$maintenanceID", '
+          '"$capacity", '
+          '"$driverID")';
       await insertData(query);
     }
   }

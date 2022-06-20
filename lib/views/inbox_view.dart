@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gui/sql_db.dart';
 
 import '../data/data.dart';
 
@@ -11,6 +12,21 @@ class _InboxViewState extends State<InboxView> {
   late double screenHeight;
   late double viewHeight;
   late double viewWidth;
+
+  Widget dataTable = Container();
+
+  @override
+  initState()
+  {
+    super.initState();
+    init();
+  }
+
+  init() async
+  {
+    Widget temp = await buildDatatable();
+    setState( ()=> dataTable = temp );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,9 +47,9 @@ class _InboxViewState extends State<InboxView> {
               ),
               Container(
                 height: screenHeight * 0.1,
-                child: Center(child: Text('filters4')),
+                child: const Center(child: Text('filters4')),
               ),
-              buildDatatable(),
+              dataTable,
             ],
           ),
         ),
@@ -41,17 +57,20 @@ class _InboxViewState extends State<InboxView> {
     ]);
   }
 
-  Widget buildDatatable() {
+  Future<Widget> buildDatatable() async{
     final columns = [
-      'no',
-      'Name',
-      'ID',
-      'Payment Date',
-      'Route',
-      'Email',
-      'Approval'
+      'Complaint ID',
+      'Title',
+      'Description',
+      'Passenger ID',
+      'Route ID',
+      'Date',
+      'Direction',
+      'Bus Number',
     ];
-    return DataTable(columns: getColumns(columns), rows: getRows(allPAYMENTS));
+    List<Map> complaintRespones = await SqlDb().getAllComplaints();
+    print("Complaints ${complaintRespones.length}");
+    return DataTable(columns: getColumns(columns), rows: getRows(complaintRespones));
   }
 
   List<DataColumn> getColumns(List<String> columns) => columns
@@ -60,16 +79,17 @@ class _InboxViewState extends State<InboxView> {
           ))
       .toList();
 
-  List<DataRow> getRows(List<payment> payments) {
-    return payments.map((payment payment) {
+  List<DataRow> getRows(List<Map> complaints) {
+    return complaints.map((Map complaint) {
       final cells = [
-        payment.no,
-        payment.name,
-        payment.id,
-        payment.payment_date,
-        payment.route,
-        payment.Email,
-        payment.approval
+        complaint['Complain_id'],
+        complaint['Title'],
+        complaint['Description'],
+        complaint['Passenger_id'],
+        complaint['Route_id'],
+        complaint['Day'],
+        complaint['Direction'],
+        complaint['Bus_no'],
       ];
       return DataRow(cells: getCells(cells));
     }).toList();

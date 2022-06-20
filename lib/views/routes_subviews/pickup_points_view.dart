@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gui/sql_db.dart';
 import '../../data/data.dart';
 
 class PickupPointsView extends StatefulWidget {
@@ -11,15 +12,29 @@ class _PickupPointsViewState extends State<PickupPointsView> {
   late double viewHeight;
   late double viewWidth;
 
-  String dropdownvalue = 'Route_ID 1';   
+  Widget dataTable = Container();
+  String dropdownvalue = 'Route_ID 1';
   // List of items in our dropdown menu
-  var routes_items = [    
+  var routes_items = [
     'Route_ID 1',
     'Route_ID 2',
     'Route_ID 3',
     'Route_ID 4',
     'Route_ID 5',
   ];
+
+  @override
+  initState()
+  {
+    super.initState();
+    init();
+  }
+
+  init() async
+  {
+    Widget temp = await buildDatatable();
+    setState( ()=> dataTable = temp );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,39 +54,33 @@ class _PickupPointsViewState extends State<PickupPointsView> {
               Container(
                 height: screenHeight * 0.05,
               ),
-
               SizedBox(
-                height: screenHeight * 0.1,
-                width: viewWidth*0.5,
-                child: 
-
-                Row(children: <Widget>[ 
-
-                const Text('Filter:     '),
-              
-              DropdownButton(
-              // Initial Value
-              value: dropdownvalue,
-              // Down Arrow Icon
-              icon: const Icon(Icons.keyboard_arrow_down),    
-              // Array list of items
-              items: routes_items.map((String items) {
-                return DropdownMenuItem(
-                  value: items,
-                  child: Text(items),
-                );
-              }).toList(),
-              // After selecting the desired option,it will
-              // change button value to selected value
-              onChanged: (String? newValue) { 
-                setState(() {
-                  dropdownvalue = newValue!;
-                });
-              },
-            ),
-                ])),
-
-              buildDatatable(),
+                  height: screenHeight * 0.1,
+                  width: viewWidth * 0.5,
+                  child: Row(children: <Widget>[
+                    const Text('Filter:     '),
+                    DropdownButton(
+                      // Initial Value
+                      value: dropdownvalue,
+                      // Down Arrow Icon
+                      icon: const Icon(Icons.keyboard_arrow_down),
+                      // Array list of items
+                      items: routes_items.map((String items) {
+                        return DropdownMenuItem(
+                          value: items,
+                          child: Text(items),
+                        );
+                      }).toList(),
+                      // After selecting the desired option,it will
+                      // change button value to selected value
+                      onChanged: (String? newValue) {
+                        setState(() {
+                          dropdownvalue = newValue!;
+                        });
+                      },
+                    ),
+                  ])),
+              dataTable,
             ],
           ),
         ),
@@ -79,17 +88,15 @@ class _PickupPointsViewState extends State<PickupPointsView> {
     ]);
   }
 
-  Widget buildDatatable() {
+  Future<Widget> buildDatatable() async{
     final columns = [
-      'no',
-      'Name',
-      'ID',
-      'Payment Date',
-      'Route',
-      'Email',
-      'Approval'
+      'Route ID',
+      'Order Number',
+      'Address',
+      'Time'
     ];
-    return DataTable(columns: getColumns(columns), rows: getRows(allPAYMENTS));
+    List<Map> pickUpPoints = await SqlDb().getAllPickupPoints();
+    return DataTable(columns: getColumns(columns), rows: getRows(pickUpPoints));
   }
 
   List<DataColumn> getColumns(List<String> columns) => columns
@@ -98,16 +105,13 @@ class _PickupPointsViewState extends State<PickupPointsView> {
           ))
       .toList();
 
-  List<DataRow> getRows(List<payment> payments) {
-    return payments.map((payment payment) {
+  List<DataRow> getRows(List<Map> pickUpPoints) {
+    return pickUpPoints.map((Map pickUpPoint) {
       final cells = [
-        payment.no,
-        payment.name,
-        payment.id,
-        payment.payment_date,
-        payment.route,
-        payment.Email,
-        payment.approval
+        pickUpPoint['route_id'],
+        pickUpPoint['order_number'],
+        pickUpPoint['address'],
+        pickUpPoint['time'],
       ];
       return DataRow(cells: getCells(cells));
     }).toList();

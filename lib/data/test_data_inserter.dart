@@ -8,6 +8,9 @@ class DataInserter
     PassengerData.allPassengerData,
     RouteData.allRouteData,
     PickUpPointData.allPickUpPoints,
+    BusData.allBussesData,
+    ComplainData.allComplaints,
+
   ];
   static void insertAll() async
   {
@@ -93,6 +96,14 @@ class UserData extends Data
       ..password = 'admin'
       ..privilege = 1,
 
+    UserData()
+      ..nationalID = 3
+      ..mobileNo = 01204
+      ..name = 'Mohammed'
+      ..age = 21
+      ..userName = 'passenger1'
+      ..password = 'passenger1'
+      ..privilege = 2,
   ];
 
   late String userName;
@@ -111,6 +122,15 @@ class UserData extends Data
 class PassengerData extends Data
 {
   static List<PassengerData> allPassengerData = [
+    PassengerData()
+    ..routeID = '0'
+    ..nationalID = 3
+    ..pickUpPointOrderNumber = 0
+    ..paymentDate = '1990'
+    ..approval = 'false'
+    ..ustID = 199000305
+    ..email = "s-mohammed1990@zewailcity.edu.eg"
+    ..emergencyContact = 203,
 
   ];
   late int nationalID;
@@ -228,5 +248,93 @@ class PickUpPointData extends Data
 
   @override
   Future<void> insert() => SqlDb().addPickUpPoint(address, orderNo, routeID, time);
+
+}
+
+class BusData extends Data
+{
+  static List<BusData> allBussesData = [
+    BusData()
+    ..driverID = '0'
+    ..busNo = '0'
+    ..capacity = 20
+    ..maintenanceID = '',
+
+    BusData()
+      ..driverID = '1'
+      ..busNo = '1'
+      ..capacity = 32
+      ..maintenanceID = '',
+  ];
+
+  late String busNo;
+  late int capacity;
+  late String maintenanceID;
+  late String driverID;
+
+  @override
+  Future<void> insert() async => await SqlDb().addBus(busNo, capacity, maintenanceID, driverID);
+}
+
+class ComplainData extends Data
+{
+  static List<ComplainData> allComplaints = [
+    ComplainData()
+    ..passengerID = 3
+    ..busNo = '0'
+    ..routeID = '0'
+    ..title = "حرام اجدعان"
+    ..date = '3333'
+    ..description = 'ان شاء الله البروجكت هيخلص لوحده'
+    ..complaintDate = '1111'
+    ..complaintID = 0
+    ..direction = 'Dawn Trip',
+
+    ComplainData()
+      ..passengerID = 3
+      ..busNo = '0'
+      ..routeID = '0'
+      ..title = "مسا مسا"
+      ..date = '3233'
+      ..description = 'كلاكيت تاني مرة'
+      ..complaintDate = '2211'
+      ..complaintID = 1
+      ..direction = 'Dusk Trip',
+
+    ComplainData()
+      ..passengerID = 3
+      ..busNo = '0'
+      ..routeID = '0'
+      ..title = "They said i always troll"
+      ..date = '3233'
+      ..description = 'Well, now they are not wrong.'
+      ..complaintDate = '2233'
+      ..complaintID = 2
+      ..direction = 'Dawn Trip',
+
+    ComplainData()
+      ..passengerID = 3
+      ..busNo = '0'
+      ..routeID = '0'
+      ..title = "واحدة كمان اكابتن"
+      ..date = '3233'
+      ..description = 'اي حاجة لله يسطا'
+      ..complaintDate = '2233'
+      ..complaintID = 3
+      ..direction = 'Dusk Trip',
+  ];
+
+  late int passengerID;
+  late String date;
+  late String direction;
+  late String routeID;
+  late String busNo;
+  late int complaintID;
+  late String complaintDate;
+  late String description;
+  late String title;
+
+  @override
+  Future<void> insert() => SqlDb().addComplaintInternal(passengerID, date, direction, routeID, busNo, complaintID, complaintDate, description, title);
 
 }
