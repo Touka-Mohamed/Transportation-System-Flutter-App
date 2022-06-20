@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:gui/sql_db.dart';
-import '../../data/data.dart';
+// import '../../data/data.dart';
+import '../data/data.dart';
+import '../widgets/scrollable_widget.dart';
 
 class PassengersView extends StatefulWidget {
   @override
@@ -11,6 +13,7 @@ class _PassengersViewState extends State<PassengersView> {
   late double screenHeight;
   late double viewHeight;
   late double viewWidth;
+  List<Passenger> selected = [];
 
   String dropdownvalue = 'Route_ID 1';
   String dropdownvalue2 = 'ID1';
@@ -31,16 +34,14 @@ class _PassengersViewState extends State<PassengersView> {
 
   Widget dataTable = Container();
   @override
-  initState()
-  {
+  initState() {
     super.initState();
     init();
   }
 
-  init() async
-  {
+  init() async {
     var data = await buildDatatable();
-    setState( ()=> dataTable = data );
+    setState(() => dataTable = data);
   }
 
   @override
@@ -64,10 +65,15 @@ class _PassengersViewState extends State<PassengersView> {
                   height: screenHeight * 0.1,
                   width: viewWidth * 0.5,
                   child: Row(children: <Widget>[
-                    const Text('Filter:     '),
+                    const Text('Filter:     ',
+                        style: (TextStyle(fontSize: 20, color: Colors.grey))),
                     DropdownButton(
                       // Initial Value
                       value: dropdownvalue,
+                      //theme
+                      dropdownColor: Color.fromARGB(255, 146, 137, 139),
+                      style: TextStyle(
+                          fontSize: 17, color: Colors.white, height: 1.25),
                       // Down Arrow Icon
                       icon: const Icon(Icons.keyboard_arrow_down),
                       // Array list of items
@@ -85,10 +91,17 @@ class _PassengersViewState extends State<PassengersView> {
                         });
                       },
                     ),
-                    const Spacer(),
+                    // const Spacer(),
+                    SizedBox(
+                      width: 40,
+                    ),
                     DropdownButton(
                       // Initial Value
                       value: dropdownvalue2,
+                      //theme
+                      dropdownColor: Color.fromARGB(255, 146, 137, 139),
+                      style: TextStyle(
+                          fontSize: 17, color: Colors.white, height: 1.25),
                       // Down Arrow Icon
                       icon: const Icon(Icons.keyboard_arrow_down),
                       // Array list of items
@@ -107,7 +120,10 @@ class _PassengersViewState extends State<PassengersView> {
                       },
                     )
                   ])),
-              dataTable,
+              Container(
+                height: screenHeight * 0.05,
+              ),
+              Expanded(child: ScrollableWidget(child: dataTable)),
             ],
           ),
         ),
@@ -115,7 +131,7 @@ class _PassengersViewState extends State<PassengersView> {
     ]);
   }
 
-  Future<Widget> buildDatatable() async{
+  Future<Widget> buildDatatable() async {
     final columns = [
       'Email',
       'NationalID',
@@ -128,7 +144,12 @@ class _PassengersViewState extends State<PassengersView> {
     print('Columns: ${columns.length}');
     List<Map> passengerResponse = await SqlDb().getAllPassengers();
     print('Rows: ${passengerResponse.length}');
-    return DataTable(columns: getColumns(columns), rows: getRows(passengerResponse));
+    return DataTable(
+        columns: getColumns(columns),
+        rows: getRows(passengerResponse),
+        headingTextStyle: TextStyle(fontSize: 20, color: Colors.grey[500]),
+        dataTextStyle:
+            const TextStyle(fontSize: 17, color: Colors.white, height: 1.25));
   }
 
   List<DataColumn> getColumns(List<String> columns) => columns
@@ -138,7 +159,7 @@ class _PassengersViewState extends State<PassengersView> {
       .toList();
 
   List<DataRow> getRows(List<Map> passengers) {
-    return passengers.map( (Map passenger) {
+    return passengers.map((Map passenger) {
       final cells = [
         passenger['Email'],
         passenger['NationalID'],

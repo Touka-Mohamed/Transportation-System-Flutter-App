@@ -1,3 +1,5 @@
+// import 'dart:js_util';
+
 import 'package:flutter/material.dart';
 
 enum SelectOptions { exceptions, complains }
@@ -37,16 +39,24 @@ class InboxPageState extends State<InboxPage> {
                   DropdownButton<int>(
                     value: selectedDay,
                     items: const [
-                      DropdownMenuItem(child: Text("Day"),),
+                      DropdownMenuItem(
+                        child: Text("Day"),
+                      ),
                       DropdownMenuItem(value: 1, child: Text("Today")),
                       DropdownMenuItem(value: 2, child: Text("Tomorrow")),
                     ],
-                    onChanged: (value) {print(value); selectedDay = value;},
+                    onChanged: (value) {
+                      print(value);
+                      selectedDay = value;
+                    },
                   ),
                   DropdownButton<int>(
                     value: selectedRoute,
                     items: const [DropdownMenuItem(child: Text("Route"))],
-                    onChanged: (value) {print(value); selectedRoute = value;},
+                    onChanged: (value) {
+                      print(value);
+                      selectedRoute = value;
+                    },
                   ),
                   ElevatedButton(
                       onPressed: () {
@@ -89,14 +99,14 @@ class ComplaintItem extends StatelessWidget {
   final String route;
   final DateTime? date;
 
-  const ComplaintItem({
-    Key? key,
-    this.complaintID = "515863452",
-    this.route = "Route",
-    this.date,
-    this.title = "Title",
-    this.complaintText = "ربنا ما يجيب شكوي ان شاء الله"
-  }) : super(key: key);
+  const ComplaintItem(
+      {Key? key,
+      this.complaintID = "515863452",
+      this.route = "Route",
+      this.date,
+      this.title = "Title",
+      this.complaintText = "ربنا ما يجيب شكوي ان شاء الله"})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {

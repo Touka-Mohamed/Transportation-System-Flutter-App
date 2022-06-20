@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'content_view.dart';
 import 'views/inbox_view.dart';
-import 'views/login_view.dart';
+import 'views/home_view.dart';
 import 'views/maintenance_view.dart';
 import 'views/passengers_view.dart';
 import 'views/payment_view.dart';
 import 'views/routes_view.dart';
 import 'widgets/custom_tab.dart';
+
+// import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
 class AdminHomePage extends StatefulWidget {
   const AdminHomePage({Key? key}) : super(key: key);
@@ -30,7 +32,7 @@ class _AdminHomePageState extends State<AdminHomePage>
 //main menue==============================================================================
     ContentView(
       tab: CustomTab(title: 'Home'),
-      content: LoginView(),
+      content: HomeView(),
     ),
     ContentView(
       tab: CustomTab(title: 'Payment'),
@@ -62,6 +64,7 @@ class _AdminHomePageState extends State<AdminHomePage>
 
   @override
   Widget build(BuildContext context) {
+    //=============================================================================
     screenWidth = MediaQuery.of(context).size.width;
     screenHeight = MediaQuery.of(context).size.height;
     topPadding = screenHeight * 0.05;
@@ -90,7 +93,7 @@ class _AdminHomePageState extends State<AdminHomePage>
         ));
   }
 
-  Widget desktopView() {
+  Widget S() {
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,

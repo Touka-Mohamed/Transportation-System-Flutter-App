@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
-import 'package:gui/sql_db.dart';
 
 class FileComplaintPage extends StatefulWidget
 {
@@ -12,29 +11,19 @@ class FileComplaintPage extends StatefulWidget
 
 class FileComplaintPageState extends State<FileComplaintPage>
 {
-  SqlDb sqlDb = SqlDb();
-  var items = [
-    'Dawn Trip',
-    'Dusk Trip'
-  ];
   DateTime selectedDate = DateTime.now();
-  String selectedDirection = 'Dawn Trip';
-  TextEditingController titleTextController = TextEditingController();
-  TextEditingController descriptionTextController = TextEditingController();
-
-  bool checkDependencies()
-  {
-    bool passed = true;
-    if(titleTextController.text.isEmpty){ passed = false; }
-    if(descriptionTextController.text.isEmpty){ passed = false; }
-
-    return passed;
-  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("File a complaint", textAlign: TextAlign.center),
+        title:
+        Row(
+            children: [
+              BackButton(color: Colors.white, onPressed: (){}),
+              const Spacer(),
+              const Text("File a complaint", textAlign: TextAlign.center),
+              const Spacer(),
+            ]),
       ),
       body: Column(
         children: [
@@ -51,11 +40,9 @@ class FileComplaintPageState extends State<FileComplaintPage>
               ),
             ),
           ),
-          TextField(
-            controller: titleTextController,
-            decoration: const InputDecoration(hintText: "Insert title here.."),
+          const TextField(
+            decoration: InputDecoration(hintText: "Insert title here.."),
           ),
-
           SizedBox(
             width: MediaQuery.of(context).size.width,
             height: 60,
@@ -85,36 +72,6 @@ class FileComplaintPageState extends State<FileComplaintPage>
                 textAlign: TextAlign.center,
               ),
             ),
-
-          Container(
-            width: MediaQuery.of(context).size.width,
-            height: 60,
-            color: Colors.blue,
-            alignment: Alignment.center,
-            child: const Text(
-              "Which trip?",
-              style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 24
-              ),
-            ),
-          ),
-          DropdownButton(
-              alignment: AlignmentDirectional.center,
-              isExpanded: true,
-              value: selectedDirection,
-              items: items.map((String item)
-              {
-                return DropdownMenuItem(
-                  alignment: AlignmentDirectional.center,
-                  value: item,
-                  child: Text(item),
-                );
-              }).toList(),
-              onChanged: (String? newValue){
-                setState(()=> selectedDirection = newValue!);
-              }),
-
           Container(
             width: MediaQuery.of(context).size.width,
             height: 60,
@@ -128,21 +85,15 @@ class FileComplaintPageState extends State<FileComplaintPage>
               ),
             ),
           ),
-          TextField(
-            controller: descriptionTextController,
-            decoration: const InputDecoration(hintText: "Tell us what happened here.."),
+          const TextField(
+              decoration: InputDecoration(hintText: "Tell us what happened here.."),
           ),
-
           const Spacer(),
           SizedBox(
             height: 50,
-            width: MediaQuery.of(context).size.width * 0.75,
+            width: 200,
             child: ElevatedButton(
-              onPressed: () async {
-                if(!checkDependencies()){ return; }
-                await sqlDb.addComplaint(selectedDate.toString(), selectedDirection, descriptionTextController.text, titleTextController.text);
-                Navigator.pop(context);
-              },
+              onPressed: () {},
               style: ButtonStyle(
                   backgroundColor:
                       MaterialStateColor.resolveWith((states) => Colors.blue)),
