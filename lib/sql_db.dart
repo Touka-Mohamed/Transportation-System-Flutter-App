@@ -283,6 +283,13 @@ FOREIGN KEY (order_number,  Route_id) REFERENCES Pick_up_Point  (order_number, r
       return response;
     }
 
+    getUserName(int nationalID) async
+    {
+      List<Map> response = await readData(
+          "select name from User_Table WHERE national_id= '${nationalID}' ");
+      return response;
+    }
+
     getAllPassengers() async
     {
       List<Map> responses = await readData(
@@ -295,6 +302,13 @@ FOREIGN KEY (order_number,  Route_id) REFERENCES Pick_up_Point  (order_number, r
       List<Map> response = await readData(
           "select * from Passenger WHERE Route_id = '$Route_id' ");
       return response.length;
+    }
+
+    getPassengersByRoute(String Route_id) async
+    {
+      List<Map> response = await readData(
+          "select * from Passenger WHERE Route_id = '$Route_id' ");
+      return response;
     }
 
     getPassengerData(String nationalID) async
