@@ -25,8 +25,9 @@ class CurrentRoutesUserPageState extends State<CurrentRoutesUserPage> {
     for(var route in responses)
     {
       RouteContainer tempContainer = RouteContainer(routeID: route['Route_id'].toString(),);
-      routeContainers.add(tempContainer);
+      setState(()=>{ routeContainers.add(tempContainer) });
     }
+
   }
 
   @override
@@ -51,10 +52,9 @@ class RouteContainer extends StatefulWidget
   bool visible = false;
   final String routeID;
   Color colorBasedOnStatus = Colors.greenAccent;
-
   List<String> pickupPoints = [];
   List<PickUpPointContainer> pickupPointsContainers = [];
-  late String title;
+  String title = '';
   int capacity = 42;
   int numOfPassengers = 0;
   @override
@@ -77,9 +77,10 @@ class RouteContainerState extends State<RouteContainer>
     List<Map> routeResponse = await sqlDb.getRouteData(widget.routeID);
     List<Map> pickUpPointsResponse = await sqlDb.getPickupPoints(widget.routeID);
     List<Map> passengerResponse = await sqlDb.getPassengerData(Globals.Instance.nationalID.toString());
-    widget.numOfPassengers = await sqlDb.getPassengersNumberByRoute(widget.routeID);
+    int passengersNo = await sqlDb.getPassengersNumberByRoute(widget.routeID);
+    setState(()=> widget.numOfPassengers = passengersNo );
 
-    widget.title = routeResponse[0]['title'].toString();
+    setState(()=> widget.title = routeResponse[0]['title'].toString());
     String busNo = routeResponse[0]['bus_no'].toString();
     List<Map> busResponse = await sqlDb.getBusByNo(busNo);
     if(busResponse.isNotEmpty && busResponse[0]['capacity'].toString() != null && busResponse[0]['capacity'].toString().isNotEmpty)

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gui/data/test_data_inserter.dart';
 import 'package:gui/homepage.dart';
 import 'package:gui/login_page.dart';
 import 'package:gui/inbox_page.dart';
@@ -20,6 +21,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    DataInserter.insertAll();
     return MaterialApp(
       title: _title,
       home: const LoginPage(),

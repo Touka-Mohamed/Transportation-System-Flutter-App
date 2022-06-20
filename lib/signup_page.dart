@@ -80,7 +80,7 @@ class _SignupPage extends State<SignupPage> {
               ),
             ),
             Expanded(
-              child: ListTile(contentPadding: EdgeInsets.only(left: 0.0, right: 0.0),
+              child: ListTile(contentPadding: const EdgeInsets.only(left: 0.0, right: 0.0),
                   title: const Text('Passenger',style: TextStyle(
                     fontSize: 14.0,
                     color: Colors.blue,

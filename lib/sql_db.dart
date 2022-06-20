@@ -63,8 +63,8 @@ class SqlDb {
 CREATE TABLE Route 
 (
 "Route_id"                  TEXT   PRIMARY KEY,
-"semester"                  TEXT Unique,
-"year"                       INTEGER Unique,
+"semester"                  TEXT,
+"year"                       INTEGER,
 "driver_id"                  INTEGER  ,
 "passengers_id"              INTEGER  , 
 "bus_no"                    TEXT,
@@ -304,6 +304,12 @@ FOREIGN KEY (order_number,  Route_id) REFERENCES Pick_up_Point  (order_number, r
       return response;
     }
 
+    getNumberOfRoutes() async
+    {
+      List<Map> routeResponse = await getAllRoutes();
+      return routeResponse.length;
+    }
+
     getAllRoutes() async
     {
       List<Map> response = await readData(
@@ -339,6 +345,47 @@ FOREIGN KEY (order_number,  Route_id) REFERENCES Pick_up_Point  (order_number, r
       return responses.length;
     }
 
+    addUser(
+        String userName,
+        String password,
+        int privilege,
+        int nationalID,
+        String name,
+        int age,
+        int mobileNo) async
+    {
+      String query = 'INSERT INTO User_Table '
+          'VALUES( "$userName", '
+          '"$password", '
+          '"$privilege", '
+          '"$nationalID", '
+          '"$name", '
+          '"$age", '
+          '"$mobileNo")';
+      await insertData(query);
+    }
+
+    addPassenger(
+        int nationalID,
+        String email,
+        int emergencyContact,
+        int ustID,
+        String approval,
+        {String paymentDate = '', String routeID = '', int pickUpPointOrderNumber = 0,}
+        ) async
+    {
+      String query = 'INSERT into User_Table '
+          'VALUES( "$nationalID", '
+          '"$email", '
+          '"$paymentDate", '
+          '"$routeID", '
+          '"$pickUpPointOrderNumber", '
+          '"$emergencyContact", '
+          '"$ustID", '
+          '"$approval")';
+      await insertData(query);
+    }
+
     addComplaint(
         String date,
         String direction,
@@ -352,16 +399,16 @@ FOREIGN KEY (order_number,  Route_id) REFERENCES Pick_up_Point  (order_number, r
       List<Map> passengerResponse = await getPassengerData(Globals.Instance.nationalID.toString());
       String routeID = passengerResponse[0]['Route_id'].toString();
       String query = 'INSERT into Complain '
-          'VALUES( $passengerID, '
-          '$date, '
-          '$direction, '
-          '$routeID, '
+          'VALUES( "$passengerID", '
+          '"$date", '
+          '"$direction", '
+          '"$routeID", '
           ', '
-          '$complaintID, '
-          '$complaintDate, '
-          '$description, '
-          '$title)';
-      insertData(query);
+          '"$complaintID", '
+          '"$complaintDate", '
+          '"$description", '
+          '"$title")';
+      await insertData(query);
     }
 
     addException(
@@ -379,17 +426,54 @@ FOREIGN KEY (order_number,  Route_id) REFERENCES Pick_up_Point  (order_number, r
       currentRouteID = passengerResponse[0]['Route_id'].toString();
 
       String query = 'INSERT into Exception '
-          'VALUES( $passengerID, '
-          '$currentDay, '
-          '$currentDirection, '
-          '$currentRouteID, '
+          'VALUES( "$passengerID", '
+          '"$currentDay", '
+          '"$currentDirection", '
+          '"$currentRouteID", '
           ', '
-          '$demandedDay, '
-          '$demandedDirection, '
-          '$demandedRouteID, '
-          ', '
-          ' )';
-      insertData(query);
+          '"$demandedDay", '
+          '"$demandedDirection", '
+          '"$demandedRouteID", '
+          '"", '
+          '"")';
+      await insertData(query);
+    }
+
+    addRoute(
+        String semester,
+        year,
+        String selectDeadline,
+        String title,
+        {String driverID = '', String busNo = ''}
+        ) async
+    {
+      int routeID = await getNumberOfRoutes();
+
+      String query = 'INSERT into Route '
+          'VALUES( $routeID, '
+          '"$semester", '
+          '"$year", '
+          '"$driverID", '
+          '"", '
+          '"$busNo", '
+          '"$selectDeadline", '
+          '"$title")';
+      await insertData(query);
+    }
+
+    addPickUpPoint(
+        String address,
+        int orderNo,
+        String routeID,
+        String time
+        ) async
+    {
+      String query = 'INSERT into Pick_up_Point '
+          'VALUES( "$address", '
+          '"$orderNo", '
+          '"$routeID", '
+          '"$time")';
+      await insertData(query);
     }
   }
 

@@ -20,8 +20,6 @@ class RouteRequestChangePageState extends State<RouteRequestChangePage>
     'Dawn Trip',
     'Dusk Trip'
   ];
-
-  List<bool> routes = [];
   List<RouteContainer> routeContainers = [];
 
   String? selectedRoute;
@@ -30,11 +28,11 @@ class RouteRequestChangePageState extends State<RouteRequestChangePage>
   onSelected(int order, String routeID)
   {
     selectedRoute = routeID;
-    for(var route in routes)
+    for(var routeContainer in routeContainers)
     {
-      route = false;
+      if(routeContainers[order] == routeContainer){ continue; }
+      setState( ()=> routeContainer.deselect() );
     }
-    routes[order] = true;
   }
 
   @override
@@ -56,7 +54,6 @@ class RouteRequestChangePageState extends State<RouteRequestChangePage>
       );
 
       routeContainers.add(tempContainer);
-      routes.add(false);
     }
   }
 
@@ -190,12 +187,17 @@ class RouteContainer extends StatefulWidget
   static const Color selectedColor = Colors.yellow;
   final int order;
   final String routeID;
-  late int numOfPassengers;
-  late String title;
-  late int capacity;
+  int numOfPassengers = 0;
+  String title = '';
+  int capacity = 42;
   Color colorBasedOnStatus = Colors.greenAccent;
   Function(int order, String routeID)? onSelected;
   List<PickUpPointContainer> pickupPointsContainers = [];
+
+  void deselect()
+  {
+    isSelected = false;
+  }
 
   RouteContainer({Key? key, required this.order, required this.routeID, this.onSelected, this.isSelected = false, }) : super(key: key);
   @override
@@ -205,6 +207,7 @@ class RouteContainer extends StatefulWidget
 class RouteContainerState extends State<RouteContainer>
 {
   SqlDb sqlDb = SqlDb();
+
   @override
   void initState()
   {
@@ -214,48 +217,44 @@ class RouteContainerState extends State<RouteContainer>
 
   void init() async
   {
+    print(widget.routeID);
     List<Map> routeResponse = await sqlDb.getRouteData(widget.routeID);
     List<Map> pickUpPointsResponse = await sqlDb.getPickupPoints(widget.routeID);
     List<Map> passengerResponse = await sqlDb.getPassengerData(Globals.Instance.nationalID.toString());
-    widget.numOfPassengers = await sqlDb.getPassengersNumberByRoute(widget.routeID);
+    int passengersNo = await sqlDb.getPassengersNumberByRoute(widget.routeID);
+    setState( ()=> widget.numOfPassengers = passengersNo );
 
-    widget.title = routeResponse[0]['title'].toString();
+    setState( ()=> widget.title = routeResponse[0]['title'].toString() );
     String busNo = routeResponse[0]['bus_no'].toString();
     List<Map> busResponse = await sqlDb.getBusByNo(busNo);
     if(busResponse.isNotEmpty && busResponse[0]['capacity'].toString() != null && busResponse[0]['capacity'].toString().isNotEmpty)
     {
-      setState(()=> widget.capacity = busResponse[0]['capacity']);
+      setState( ()=> widget.capacity = busResponse[0]['capacity'] );
     }
     for(var point in pickUpPointsResponse)
     {
       PickUpPointContainer container = PickUpPointContainer(title: point['address'],);
-      setState( () => widget.pickupPointsContainers.add(container));
+      setState( ()=> widget.pickupPointsContainers.add(container));
     }
 
     if(passengerResponse[0]['Route_id'].toString() != null && passengerResponse[0]['Route_id'].toString().isNotEmpty)
     {
-      return;
-    }
-
-    if(passengerResponse[0]['Route_id'].toString() == widget.routeID)
-    {
-      setState(()=> widget.colorBasedOnStatus = Colors.blueAccent);
+      if(passengerResponse[0]['Route_id'].toString() == widget.routeID)
+      {
+        setState(()=> widget.colorBasedOnStatus = Colors.blueAccent);
+      }
     }
 
     if(widget.numOfPassengers == widget.capacity)
     {
       setState(()=> widget.colorBasedOnStatus = Colors.redAccent);
     }
-
-    if(widget.isSelected)
-    {
-      setState(()=> widget.colorBasedOnStatus = RouteContainer.selectedColor);
-    }
   }
+
   @override
   Widget build(BuildContext context) {
     return Container(
-        color: Colors.lightBlueAccent,
+        color: widget.isSelected? RouteContainer.selectedColor:widget.colorBasedOnStatus,
         child: Column(children:[
           Container(
             width: MediaQuery.of(context).size.width,
@@ -265,7 +264,7 @@ class RouteContainerState extends State<RouteContainer>
             ),
             child: ElevatedButton(
               style: ButtonStyle(
-                backgroundColor: MaterialStateColor.resolveWith((states) => Colors.lightBlueAccent),
+                backgroundColor: MaterialStateColor.resolveWith((states) => widget.isSelected? RouteContainer.selectedColor:widget.colorBasedOnStatus),
               ),
               child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -278,10 +277,12 @@ class RouteContainerState extends State<RouteContainer>
                   widget.arePickupPointsVisible = !widget.arePickupPointsVisible;
                 });
               },
-              onLongPress: (){ setState((){
+              onLongPress: (){
+                setState((){
                 widget.isSelected = true;
                 widget.onSelected!(widget.order, widget.routeID);
-              }); },
+              }
+              ); },
             ),
           ),
           Visibility(
