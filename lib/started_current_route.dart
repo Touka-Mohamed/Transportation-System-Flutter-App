@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gui/sql_db.dart';
 
 class StartedCurrentRoute extends StatefulWidget {
   const StartedCurrentRoute({Key? key, required this.routeid, required this.route_title, required this.semester, required this.year, required this.bus_num}) : super(key: key);
@@ -14,11 +15,44 @@ class StartedCurrentRoute extends StatefulWidget {
 
 class _StartedCurrentRoute extends State<StartedCurrentRoute> {
 
-  String descText1 = "Pickup point 1\nPickup point 2\nPickup point 3\nPickup point 4\nPickup point 5\nPickup point 6";
-  String descText2 = "Passenger name 1\nPassenger name 2\nPassenger name 3\nPassenger name 4\nPassenger name 5\nPassenger name 6";
+  SqlDb sqlDb = SqlDb(); //instance of the database class
+
+
+  String descText1 = "";
+  String descText2 = "";
 
   bool descTextShowFlag = false;
   bool descTextShowFlag2 = false;
+
+@override
+  initState()
+  {
+    super.initState();
+    init();
+  }
+
+  init() async
+  {
+    List<Map> pickuppoints = await sqlDb.getPickupPointsByRouteID(widget.routeid);
+    for(int index = 0; index < pickuppoints.length; index++)
+    {
+        String point_address = pickuppoints[index]['address'].toString();
+        descText1 = "$descText1 $point_address\n";
+    }
+
+
+    List<Map> passengers_data = await sqlDb.getPassengersByRoute(widget.routeid);
+    for(int index = 0; index < passengers_data.length; index++)
+    {
+        int passenger_id = passengers_data[index]['NationalID'];
+        List<Map> passenger_name1 = await sqlDb.getUserName(passenger_id);
+        String passenger_name = passenger_name1[0]['name'].toString();
+
+        descText2 = "$descText2 $passenger_name\n";
+    }
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
