@@ -33,7 +33,7 @@ class _PickupPointsViewState extends State<PickupPointsView> {
   init() async
   {
     Widget temp = await buildDatatable();
-    setState( ()=> dataTable = temp );
+    setState( () => dataTable = temp );
   }
 
   @override
@@ -80,7 +80,7 @@ class _PickupPointsViewState extends State<PickupPointsView> {
                       },
                     ),
                   ])),
-              dataTable,
+              Expanded(child: SingleChildScrollView(child: dataTable)),
             ],
           ),
         ),
