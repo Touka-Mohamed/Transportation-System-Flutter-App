@@ -66,7 +66,7 @@ class _StartedCurrentRoute extends State<StartedCurrentRoute> {
               alignment: Alignment.center,
               padding: const EdgeInsets.fromLTRB(50, 50, 50, 50),
               child:  Text(
-                'Description\nPeriod: ${widget.semester} ${widget.year}\nBus: ${widget.bus_num}',
+                'Route Details:\nTitle: ${widget.route_title}\nPeriod: ${widget.semester} ${widget.year}\nBus: ${widget.bus_num}',
                 style: TextStyle(fontSize: 20),
               )),
 

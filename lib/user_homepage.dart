@@ -25,6 +25,10 @@ class _UserHomePageState extends State<UserHomePage> {
   Widget build(BuildContext context) {
 
     return Scaffold(
+      appBar: AppBar(
+        centerTitle: true,
+        title: const Text("", textAlign: TextAlign.center),
+      ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
