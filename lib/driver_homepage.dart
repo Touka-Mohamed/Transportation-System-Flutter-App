@@ -69,10 +69,14 @@ class _DriverHomePage extends State<DriverHomePage> {
 
                   ),
                   onPressed: () async {
-                    int response1 = await sqlDb.insertData("""INSERT INTO Route('Route_id','semester','year',
+                    int response1 = 0;
+                    try{
+                      response1 = await sqlDb.insertData("""INSERT INTO Route('Route_id','semester','year',
                           'driver_id','passengers_id','bus_no','title') 
                           VALUES ("S06","FALL","2020" ,"${widget.national_id}", 
-                          "201700903", "6565", "NASR CITY") """)  ;
+                          "201700903", "6565", "NASR CITY") """)  ;}
+                    catch(identifier){ print(identifier); }
+
                     print(response1);
 
                     List<Map> response = await sqlDb.readData("select * from Route WHERE driver_id= '${widget.national_id}' ");
