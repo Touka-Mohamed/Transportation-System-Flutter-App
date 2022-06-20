@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'current_route.dart';
 
 class NoRouteYet extends StatefulWidget {
   const NoRouteYet({Key? key}) : super(key: key);
@@ -40,7 +39,7 @@ class _NoRouteYet extends State<NoRouteYet> {
                   child: const Center( child: Text(
                       'Okay', style: TextStyle(fontSize: 20))),
                   onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) {return const CurrentRoute();}));
+                    Navigator.pop(context);
                   },),
 
               )),

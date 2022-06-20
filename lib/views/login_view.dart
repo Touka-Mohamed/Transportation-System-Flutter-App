@@ -22,6 +22,7 @@ class _LoginViewState extends State<LoginView> {
   Widget desktopView() {
     return Stack(children: [
       Scaffold(
+        backgroundColor: Colors.transparent,
         body: Center(
           child: Column(
             children: <Widget>[
@@ -30,7 +31,7 @@ class _LoginViewState extends State<LoginView> {
               ),
               Container(
                 height: screenHeight * 0.1,
-                child: const Center(child: Text('filters4')),
+                child: Center(child: Text('filters4')),
               ),
               buildDatatable(),
             ],
