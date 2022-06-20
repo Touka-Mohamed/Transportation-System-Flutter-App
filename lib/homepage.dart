@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'content_view.dart';
 import 'views/inbox_view.dart';
-import 'views/login_view.dart';
+import 'views/home_view.dart';
 import 'views/maintenance_view.dart';
 import 'views/passengers_view.dart';
 import 'views/payment_view.dart';
@@ -10,7 +10,7 @@ import 'views/payment_view.dart';
 import 'views/routes_view.dart';
 import 'widgets/custom_tab.dart';
 
-import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
+// import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
 class AdminHomePage extends StatefulWidget {
   const AdminHomePage({Key? key}) : super(key: key);
@@ -34,7 +34,7 @@ class _AdminHomePageState extends State<AdminHomePage>
 //main menue==============================================================================
     ContentView(
       tab: CustomTab(title: 'Home'),
-      content: LoginView(),
+      content: HomeView(),
     ),
     ContentView(
       tab: CustomTab(title: 'Payment'),

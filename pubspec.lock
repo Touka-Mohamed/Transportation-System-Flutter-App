@@ -155,7 +155,11 @@ packages:
       name: source_span
       url: "https://pub.dartlang.org"
     source: hosted
+<<<<<<< Updated upstream
     version: "1.8.2"
+=======
+    version: "1.9.0"
+>>>>>>> Stashed changes
   sqflite:
     dependency: "direct main"
     description:

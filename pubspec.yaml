@@ -35,9 +35,14 @@ dependencies:
   cupertino_icons: ^1.0.2
   scrollable_positioned_list: ^0.3.2
   flutter_datetime_picker: ^1.5.1
+<<<<<<< Updated upstream
   sqflite_common_ffi: ^2.1.1
   sqflite: ^2.0.2+1
   flutter_arc_text: ^0.5.0
+=======
+  sqflite: ^2.0.2+1
+  sqflite_common_ffi: ^2.1.1
+>>>>>>> Stashed changes
 
 dev_dependencies:
   flutter_test:

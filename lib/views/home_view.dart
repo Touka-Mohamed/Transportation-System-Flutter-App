@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import '../../data/data.dart';
 
-class LoginView extends StatefulWidget {
+class HomeView extends StatefulWidget {
   @override
-  _LoginViewState createState() => _LoginViewState();
+  _HomeViewState createState() => _HomeViewState();
 }
 
-class _LoginViewState extends State<LoginView> {
+class _HomeViewState extends State<HomeView> {
   late double screenHeight;
   late double viewHeight;
   late double viewWidth;
@@ -29,11 +29,8 @@ class _LoginViewState extends State<LoginView> {
               Container(
                 height: screenHeight * 0.05,
               ),
-              Container(
-                height: screenHeight * 0.1,
-                child: Center(child: Text('filters4')),
-              ),
-              buildDatatable(),
+
+              // buildDatatable(),
             ],
           ),
         ),
