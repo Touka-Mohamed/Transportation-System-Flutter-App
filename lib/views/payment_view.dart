@@ -46,7 +46,6 @@ class _PaymentViewState extends State<PaymentView> {
   Widget desktopView() {
     return Stack(children: [
       Scaffold(
-        backgroundColor: Colors.transparent,
         body:
       Center(
         child: Column(

@@ -23,7 +23,6 @@ class _InboxViewState extends State<InboxView> {
   Widget desktopView() {
     return Stack(children: [
       Scaffold(
-        backgroundColor: Colors.transparent,
         body: Center(
           child: Column(
             children: <Widget>[

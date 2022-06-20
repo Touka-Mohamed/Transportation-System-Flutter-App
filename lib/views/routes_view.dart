@@ -43,10 +43,9 @@ class _RoutesViewState extends State<RoutesView>
               bottom: TabBar(
                   isScrollable: true,
                   tabs: subcontentViews.map((e) => e.tab).toList()),
-              backgroundColor: Colors.transparent,
+              backgroundColor: Colors.grey,
             ),
           ),
-          backgroundColor: const Color(0xff1e1e24),
           key: scaffoldKey,
           //endDrawer: drawer(),
           body: Padding(
@@ -60,7 +59,6 @@ class _RoutesViewState extends State<RoutesView>
   Widget desktopView() {
     return Stack(children: [
       Scaffold(
-        backgroundColor: Colors.transparent,
         body: Center(
           child: Column(
             children: <Widget>[

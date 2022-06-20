@@ -22,7 +22,6 @@ class _MaintenanceViewState extends State<MaintenanceView> {
   Widget desktopView() {
     return Stack(children: [
       Scaffold(
-        backgroundColor: Colors.transparent,
         body: Center(
           child: Column(
             children: <Widget>[

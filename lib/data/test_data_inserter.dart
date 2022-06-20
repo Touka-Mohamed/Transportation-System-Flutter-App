@@ -84,6 +84,15 @@ class UserData extends Data
       ..password = '12340'
       ..privilege = 3,
 
+    UserData()
+      ..nationalID = 2
+      ..mobileNo = 012
+      ..name = 'Administrator'
+      ..age = 42
+      ..userName = 'admin'
+      ..password = 'admin'
+      ..privilege = 1,
+
   ];
 
   late String userName;

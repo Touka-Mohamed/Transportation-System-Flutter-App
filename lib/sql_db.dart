@@ -1,9 +1,7 @@
-import 'dart:ffi';
-
 import 'package:flutter/foundation.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
-import 'package:sqflite_common_ffi/sqflite_ffi.dart';
+import 'package:sqflite_common_ffi/sqflite_ffi.dart' as ffi;
 
 class SqlDb {
   static Database? _db;
@@ -11,8 +9,9 @@ class SqlDb {
     if (defaultTargetPlatform != TargetPlatform.android)
     {
       // Initialize FFI
-      sqfliteFfiInit();
-      databaseFactory = databaseFactoryFfi;
+      ffi.sqfliteFfiInit();
+      ffi.createDatabaseFactoryFfi(ffiInit: intialDb);
+      databaseFactory = ffi.databaseFactoryFfi;
     }
       if (_db == null){
         _db  = await intialDb() ;
@@ -35,6 +34,7 @@ class SqlDb {
   }
 
   _onCreate(Database db, int version) async {
+    print('Creating');
     //User table
     await db.execute('''
    CREATE TABLE "User_Table"
